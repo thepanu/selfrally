@@ -20,3 +20,6 @@
 
 # keep secrets secret
 /config/secrets.yml
+
+# Use just local db config
+/config/database.yml
