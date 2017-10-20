@@ -53,4 +53,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # For windows dev
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
+
+#Added for this project
 gem 'devise', '~> 4.3'
+## added because problems in win
+gem 'bcrypt', '~> 3.1.11'
+
+gem 'bootstrap', '~> 4.0.0.beta2'
+gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
