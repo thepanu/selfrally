@@ -1,0 +1,7 @@
+<tr>
+  <td><%= user.first_name %></td>
+  <td><%= user.last_name %></td>
+  <td><%= user.email %></td>
+  <td><%= user.roles.join(",") %></td>
+  <td><%= link_to "Edit", edit_user_registration_path, id: user.id %></td>
+</tr>

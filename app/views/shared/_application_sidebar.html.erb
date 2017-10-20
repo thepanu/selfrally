@@ -1,5 +1,6 @@
 <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
   <ul class="nav nav-pills flex-column">
     <%= sidebar_helper "nav_item", "nav-link", "li" %>
+    <%= sidebar_admin_helper "nav_item", "nav-link", "li" if logged_in?(:admin) %>
   </ul>
 </nav>
