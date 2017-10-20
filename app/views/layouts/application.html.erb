@@ -1,16 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SelfRally</title>
+    <title>SelfRally Ry</title>
     <%= csrf_meta_tags %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <%= render 'shared/application_header' %>
+
+    <div class="container-fluid">
+      <div class="row">
+        <%= render 'shared/application_sidebar' %>
+
+        <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+          <% if !notice.nil? %>
+            <div class="alert alert-success" role="alert">
+              <%= notice %>
+            </div>
+          <% end %>
+          <% if !alert.nil? %>
+          <div class="alert alert-danger" role="alert">
+            <%= alert %>
+          </div>
+          <% end %>
+
+          <%= yield %>
+
+        </main>
+      </div>
+    </div>
+
+
+
+
+
   </body>
 </html>
