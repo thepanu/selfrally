@@ -1,0 +1,42 @@
+<div class="auth-links">
+  <%= link_to "<< Back", :back %>
+</div>
+<div class="card  mx-auto">
+  <div class="card-block">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Edit User: <%= @managed_user.first_name %></h2>
+        <%= form_for @managed_user do |f| %>
+          <%= devise_error_messages! %>
+          <div class="form-group">
+            <%= f.label :first_name %><br />
+            <%= f.text_field :first_name, autofocus: true, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :last_name %><br />
+            <%= f.text_field :last_name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :role %><br />
+            <%= f.select :roles, @user.available_roles, {}, {class: "form-control"} %>
+          </div>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+
+
+
+          <div class="actions">
+            <%= f.submit "Update", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
