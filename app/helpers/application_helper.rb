@@ -43,6 +43,14 @@ module ApplicationHelper
       }
     ]
   end
+  def admin_items
+    [
+      {
+        url: admin_users_path,
+        title: "Manage users"
+      }
+    ]
+  end
   def sidebar_helper tag_style, link_style, tag_type
     html = ''
     sidebar_items.each do |n|
@@ -56,6 +64,14 @@ module ApplicationHelper
       html << "<#{tag_type} class=\"#{tag_style}\"><a href=\"#{n[:url]}\" class=\"#{link_style} #{active? n[:url]}\">#{n[:title]}</a></#{tag_type}>"
     end
     html.html_safe
+  end
+  def sidebar_admin_helper tag_style, link_style, tag_type
+    html = "<#{tag_type} class=\"#{tag_style}\"><h5>Admin</h5></#{tag_type}>"
+    admin_items.each do |n|
+      html << "<#{tag_type} class=\"#{tag_style}\"><a href=\"#{n[:url]}\" class=\"#{link_style} #{active? n[:url]}\">#{n[:title]}</a></#{tag_type}>"
+    end
+    html.html_safe
+
   end
 
   def active? path
