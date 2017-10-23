@@ -1,0 +1,10 @@
+<h1><%= @publisher.name %></h1>
+
+<% if logged_in?(:admin) %>
+  <%= link_to 'Edit', edit_publisher_path(@publisher) %> |
+<%= link_to 'Destroy', @publisher, method: :delete, data: { confirm: 'Are you sure?' } %> <br />
+<% end %>
+
+<div class="auth-links">
+  <%= link_to 'Back', publishers_path %>
+</div>

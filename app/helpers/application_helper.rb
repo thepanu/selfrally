@@ -9,22 +9,23 @@ module ApplicationHelper
   end
   def sidebar_items
     [
+      # {
+      #   url: "#",
+      #   title: "Player ratings"
+      # },
+      # {
+      #   url: "#",
+      #   title: "Gaming results"
+      # },
       {
-        url: "#",
-        title: "Player ratings"
-      },
-      {
-        url: "#",
-        title: "Gaming results"
-      },
-      {
-        url: "#",
+        url: publishers_path,
         title: "Scenario publishers"
-      },
-      {
-        url: "#",
-        title: "Scenario publications"
-      },
+      }
+      # ,
+      # {
+      #   url: "#",
+      #   title: "Scenario publications"
+      # },
     ]
   end
   def header_items

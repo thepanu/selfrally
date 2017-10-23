@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Publishers</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @publishers.each do |publisher| %>
+      <tr>
+        <td><%= link_to publisher.name, publisher_show_path(publisher) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Publisher', new_publisher_path %>
