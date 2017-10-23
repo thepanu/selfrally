@@ -20,4 +20,4 @@
 
 <br>
 
-<%= link_to 'New Publisher', new_publisher_path %>
+<%= link_to 'New Publisher', new_publisher_path if logged_in?(:admin) %>
