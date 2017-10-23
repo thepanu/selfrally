@@ -1,5 +1,8 @@
-require 'mysql2'
-require 'securerandom'
+unless Rails.env.production?
+  require 'mysql2'
+  require 'securerandom'
+end
+
 
 DISABLED_TASKS = [
   'db:drop',
