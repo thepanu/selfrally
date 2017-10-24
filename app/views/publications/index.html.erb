@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Publications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Publishing year</th>
+      <th>Publisher</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @publications.each do |publication| %>
+      <tr>
+        <td><%= link_to publication.name, publication_show_path(publication) %></td>
+        <td><%= publication.publishing_year %></td>
+        <td><%= link_to publication.publisher.name, publisher_show_path(publication.publisher) %></td>
+</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

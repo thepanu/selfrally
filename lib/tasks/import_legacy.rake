@@ -1,38 +1,12 @@
+
 require 'mysql2'
 require 'securerandom'
 
-DISABLED_TASKS = [
-  'db:drop',
-  'db:migrate:reset',
-  'db:schema:load',
-  'db:seed',
-  'db:import_legacy:users',
-  'db:import_legacy:user_names',
-  'db:import_legacy:publishers'
-]
 
-
-DISABLED_TASKS.each do |task|
-  Rake::Task[task].enhance ['db:guard_for_production']
-end
 
 
 
 namespace(:db) do
-  desc "Disable a task in production environment"
-  task :guard_for_production do
-    if Rails.env.production?
-      if ENV['I_KNOW_THIS_MAY_SCREW_THE_DB'] != "1"
-        puts 'This task is disabled in production.'
-        puts 'If you really want to run it, call it again with `I_KNOW_THIS_MAY_SCREW_THE_DB=1`'
-        exit
-      else
-        # require 'heroku'
-        # puts 'Making a backup of the database, just in case...'
-        # puts `heroku pgbackups:capture`
-      end
-    end
-  end
   namespace(:import_legacy) do
     desc "import legacy users"
     task users: :environment do
@@ -63,6 +37,17 @@ namespace(:db) do
       publishers.each do |publisher|
         Publisher.create!(  id: publisher['id'],
                             name: publisher['name'])
+      end
+      reset_pk_sequence
+    end
+    desc "import publications"
+    task publications: :environment do
+      publications = legacy_database.query("SELECT * FROM publication")
+      publications.each do |publication|
+        Publication.create!(  id: publication['id'],
+                              publisher_id: publication['publisher'].to_i,
+                              name: publication['name'],
+                              publishing_year: publication['publishing_year'].to_i)
       end
       reset_pk_sequence
     end

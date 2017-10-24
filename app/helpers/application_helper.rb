@@ -20,12 +20,11 @@ module ApplicationHelper
       {
         url: publishers_path,
         title: "Scenario publishers"
+      },
+      {
+        url: publications_path,
+        title: "Scenario publications"
       }
-      # ,
-      # {
-      #   url: "#",
-      #   title: "Scenario publications"
-      # },
     ]
   end
   def header_items

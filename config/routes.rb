@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  resources :publications
   resources :publishers
   #get 'publisher/:id', to: 'publishers#show', as: 'publisher_show'
   get 'publisher/:slug', to: 'publishers#show', as: 'publisher_show'
+  get 'publication/:slug', to: 'publications#show', as: 'publication_show'
   get 'admin/users'
   #get 'admin/edit_user'
   #resources :admin
