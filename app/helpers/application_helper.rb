@@ -24,6 +24,10 @@ module ApplicationHelper
       {
         url: publications_path,
         title: "Scenario publications"
+      },
+      {
+        url: scenarios_path,
+        title: "Scenario index"
       }
     ]
   end

@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @scenario.name %>
+</p>
+
+<p>
+  <strong>Scenario date:</strong>
+  <%= @scenario.scenario_date %>
+</p>
+
+<p>
+  <strong>Gameturns:</strong>
+  <%= @scenario.gameturns %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @scenario.location_id %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_scenario_path(@scenario) %> |
+<%= link_to 'Back', scenarios_path %>

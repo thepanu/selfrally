@@ -51,6 +51,18 @@ namespace(:db) do
       end
       reset_pk_sequence
     end
+    desc "import scenarios"
+    task scenarios: :environment do
+      scenarios = legacy_database.query("SELECT * FROM scenario")
+      scenarios.each do |scenario|
+        Scenario.create!( id: scenario['id'],
+                          name: scenario['name'],
+                          scenario_date: scenario['dateofscenario'],
+                          gameturns: scenario['gameturns'],
+                          location_id: scenario['location'])
+      end
+      reset_pk_sequence
+    end
 
   end
 end
