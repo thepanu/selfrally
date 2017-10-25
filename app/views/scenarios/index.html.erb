@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Scenarios</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Scenario date</th>
+      <th>Gameturn</th>
+      <th>Location</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @scenarios.each do |scenario| %>
+      <tr>
+        <td><%= link_to scenario.name, scenario_show_path(scenario) %></td>
+        <td><%= scenario.scenario_date %></td>
+        <td><%= scenario.gameturns %></td>
+        <td><%= scenario.location_id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Scenario', new_scenario_path %>

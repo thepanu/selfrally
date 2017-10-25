@@ -1,0 +1,42 @@
+<%= form_with(model: scenario, local: true) do |form| %>
+  <% if scenario.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(scenario.errors.count, "error") %> prohibited this scenario from being saved:</h2>
+
+      <ul>
+      <% scenario.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_area :name, id: :scenario_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :scenario_date %>
+    <%= form.date_select :scenario_date, id: :scenario_scenario_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gameturn %>
+    <%= form.text_field :gameturn, id: :scenario_gameturn %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location_id %>
+    <%= form.number_field :location_id, id: :scenario_location_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :slug %>
+    <%= form.text_area :slug, id: :scenario_slug %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
