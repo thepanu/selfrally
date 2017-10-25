@@ -7,7 +7,7 @@ require 'securerandom'
 
 
 namespace(:db) do
-  namespace(:import_legacy) do
+  namespace(:import) do
     desc "import legacy users"
     task users: :environment do
       users = legacy_database.query("SELECT * FROM player")
@@ -63,7 +63,15 @@ namespace(:db) do
       end
       reset_pk_sequence
     end
-
+    desc "import scenario-publication relations"
+    task scenario_publications: :environment do
+      sps = legacy_database.query("SELECT * FROM scenario_publication")
+      sps.each do |sp|
+        ScenarioPublication.create!(  scenario_id: sp['scenario'],
+                                      publication_id: sp['publication'],
+                                      code: sp['code'])
+      end
+    end
   end
 end
 

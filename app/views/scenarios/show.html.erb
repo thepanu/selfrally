@@ -20,6 +20,11 @@
   <%= @scenario.location_id %>
 </p>
 
+<p>
+<% @scenario.scenario_publications.each do |sp| %>
+  <strong><%= sp.publication.publishing_year %></strong> by <%= link_to sp.publication.publisher.name, publisher_show_path(sp.publication.publisher) %> in <%= link_to sp.publication.name, publication_show_path(sp.publication) %> <strong><%= sp.code %></strong><br />
+<% end %>
+</p>
 
 
 <%= link_to 'Edit', edit_scenario_path(@scenario) %> |

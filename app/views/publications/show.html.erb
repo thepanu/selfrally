@@ -12,8 +12,12 @@
 
 <p>
   <strong>Publisher:</strong>
-  <%= @publication.publisher %>
+  <%= link_to @publication.publisher.name, publisher_show_path(@publication.publisher) %>
 </p>
 
-<%= link_to 'Edit', edit_publication_path(@publication) %> |
+<p>
+<% @publication.scenarios.each do |scenario| %>
+  <%= link_to scenario.name, scenario_show_path(scenario) %><br />
+<% end %>
+</p>
 <%= link_to 'Back', publications_path %>
