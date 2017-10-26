@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :games
   resources :scenarios
   resources :publications
   resources :publishers

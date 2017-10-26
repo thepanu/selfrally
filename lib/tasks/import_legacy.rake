@@ -78,6 +78,27 @@ namespace(:db) do
         Force.find_or_create_by!( name: gp['side'])
       end
     end
+    desc "import games"
+    task games: :environment do
+      legacy_database.query("SELECT * FROM game").each do |game|
+        Game.create!( id: game['id'],
+                      date: game['created'],
+                      scenario_id: game['scenario'],
+                      gamingtime: game['gamingtime'].nil? ? nil : Time.at(game['gamingtime']).seconds_since_midnight,
+                      turnsplayed: game['turnsplayed'],
+                      status: 1)
+      end
+      reset_pk_sequence
+    end
+    desc "import game players"
+    task game_players: :environment do
+      legacy_database.query("SELECT * FROM game_player").each do |gp|
+        GamePlayer.create!( game_id: gp['game'],
+                            user_id: gp['player'],
+                            result: gp['result'],
+                            force_id: Force.where(name: gp['side']).first.id)
+      end
+    end
   end
 end
 
