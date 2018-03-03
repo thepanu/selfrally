@@ -1,0 +1,7 @@
+<div name="player-cards">
+  <h3>Players</h3>
+  <% @game.game_players.each do |player| %>
+    <p><%= player.force.name %></p>
+    <p><%= player.user.full_name %></p>
+  <% end %>
+</div>

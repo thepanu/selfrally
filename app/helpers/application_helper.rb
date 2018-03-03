@@ -38,7 +38,7 @@ module ApplicationHelper
         title: "Home"
       },
       {
-        url: "#",
+        url: new_game_path,
         title: "Add a game report"
       },
       {

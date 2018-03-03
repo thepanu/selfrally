@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171025194932) do
+ActiveRecord::Schema.define(version: 20171028192519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "forces", force: :cascade do |t|
+    t.text "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
@@ -25,6 +31,25 @@ ActiveRecord::Schema.define(version: 20171025194932) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "game_players", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "user_id"
+    t.integer "result"
+    t.integer "force_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.date "date"
+    t.integer "scenario_id"
+    t.integer "gamingtime"
+    t.float "turnsplayed"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "publications", force: :cascade do |t|
@@ -42,6 +67,14 @@ ActiveRecord::Schema.define(version: 20171025194932) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "slug"
+  end
+
+  create_table "scenario_forces", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.integer "force_id"
+    t.integer "initiative"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "scenario_publications", force: :cascade do |t|

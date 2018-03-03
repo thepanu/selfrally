@@ -1,0 +1,51 @@
+<%= form_with(model: game, local: true) do |form| %>
+  <% if game.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+      <% game.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :date %>
+    <%= form.date_select :date, id: :game_date, class: "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :scenario_id %>
+    <%= form.collection_select :scenario_id, Scenario.all, :id, :name, {}, { class: "form-control" }   %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :gamingtime %>
+    <%= form.text_field :gamingtime, id: :game_gamingtime, class: "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :turnsplayed %>
+    <%= form.text_field :turnsplayed, id: :game_turnsplayed, class: "form-control"  %>
+  </div>
+
+    <%= form.fields_for :game_players  do |pf| %>
+      <div class="form-group">
+        <%= pf.label :name %>
+        <%= pf.collection_select :user_id, User.all, :id, :full_name, {}, {selected: pf.object.user_id} %>
+      </div>
+    <% end %>
+
+
+
+
+
+    <%= form.label :status %>
+    <%= form.select :status, Game.statuses.keys.map { |w| [w.humanize, w] }, class: "form-control"  %>
+
+  <div class="actions">
+    <%= form.submit  "Create new game", class: "btn btn-primary"%>
+  </div>
+<% end %>
