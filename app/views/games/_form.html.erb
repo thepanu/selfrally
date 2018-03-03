@@ -11,32 +11,41 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :date %>
-    <%= form.date_select :date, id: :game_date %>
+    <%= form.date_select :date, id: :game_date, class: "form-control"  %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :scenario_id %>
-    <%= form.number_field :scenario_id, id: :game_scenario_id %>
+    <%= form.collection_select :scenario_id, Scenario.all, :id, :name, {}, { class: "form-control" }   %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :gamingtime %>
-    <%= form.text_field :gamingtime, id: :game_gamingtime %>
+    <%= form.text_field :gamingtime, id: :game_gamingtime, class: "form-control"  %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :turnsplayed %>
-    <%= form.text_field :turnsplayed, id: :game_turnsplayed %>
+    <%= form.text_field :turnsplayed, id: :game_turnsplayed, class: "form-control"  %>
   </div>
 
-  <div class="field">
+    <%= form.fields_for :game_players  do |pf| %>
+      <div class="form-group">
+        <%= pf.label :name %>
+        <%= pf.collection_select :user_id, User.all, :id, :full_name, {}, {selected: pf.object.user_id} %>
+      </div>
+    <% end %>
+
+
+
+
+
     <%= form.label :status %>
-    <%= form.number_field :status, id: :game_status %>
-  </div>
+    <%= form.select :status, Game.statuses.keys.map { |w| [w.humanize, w] }, class: "form-control"  %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit  "Create new game", class: "btn btn-primary"%>
   </div>
 <% end %>

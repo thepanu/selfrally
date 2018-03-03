@@ -4,4 +4,6 @@ class Scenario < ApplicationRecord
   has_many :scenario_publications
   has_many :publications, :through => :scenario_publications
   has_many :games
+  has_many :scenario_forces
+  has_many :forces, :through => :scenario_forces
 end

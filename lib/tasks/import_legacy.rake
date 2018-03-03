@@ -99,6 +99,15 @@ namespace(:db) do
                             force_id: Force.where(name: gp['side']).first.id)
       end
     end
+    desc "import scenario forces"
+    task scenario_forces: :environment do
+      legacy_database.query("SELECT * FROM scenario_side").each do |side|
+        ScenarioForce.find_or_create_by!(  scenario_id: side['scenario'],
+                                force_id: Force.find_or_create_by(name: side['side']).id,
+                                initiative: side['initiative'])
+        #puts "sc: #{side['scenario']} side: #{side['side']}" if Force.where(name: side['side']).first.nil?
+      end
+    end
   end
 end
 
