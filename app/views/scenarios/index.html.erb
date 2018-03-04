@@ -2,13 +2,14 @@
 
 <h1>Scenarios</h1>
 
-<table>
+<table data-toggle="table" data-search="true" data-mobile-responsive="true" data-pagination="true" data-page-size=25>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Scenario date</th>
-      <th>Gameturn</th>
-      <th>Location</th>
+      <th data-sortable="true">Name</th>
+      <th data-sortable="true">Belligerents</th>
+      <th data-sortable="true">Scenario date</th>
+      <th data-sortable="true">Turns</th>
+      <th data-sortable="true">Location</th>
 
     </tr>
   </thead>
@@ -17,6 +18,7 @@
     <% @scenarios.each do |scenario| %>
       <tr>
         <td><%= link_to scenario.name, scenario_show_path(scenario) %></td>
+        <td><%= scenario.belligerents %></td>
         <td><%= scenario.scenario_date %></td>
         <td><%= scenario.gameturns %></td>
         <td><%= scenario.location_id %></td>
@@ -27,4 +29,4 @@
 
 <br>
 
-<%= link_to 'New Scenario', new_scenario_path %>
+<%= link_to 'New Scenario', new_scenario_path if logged_in?(:admin, :editor) %>
