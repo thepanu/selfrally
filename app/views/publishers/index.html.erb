@@ -1,31 +1,46 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Publishers</h1>
+<div class="card">
+  <div class="card-block">
+    <div class="row input-group">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-4">
+        <%= form_for_filterrific @filterrific do |f| %>
+          <div>
+            Search
+            <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+            <%= f.text_field(
+              :search_query,
+              class: 'filterrific-periodically-observed'
+            ) %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        Sorted by
+        <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by]) %>
+      </div>
+      <div class="col-md-2">
+        <%= link_to(
+          'Reset filters',
+          reset_filterrific_url,
+          :class => "btn btn-primary"
+        ) %>
+    </div>
+    </div>
+  </div>
+</div>
 
-<table data-toggle="table" data-search="true" data-mobile-responsive="true" data-pagination="true" data-page-size=25>
-  <thead>
-    <tr>
-      <th data-sortable="true">Name</th>
-      <th data-sortable="true">Publications</th>
-      <th data-sortable="true">Scenarios</th>
-      <th data-sortable="true">Games</th>
-      <th data-sortable="true">Average Rating</th>
-    </tr>
-  </thead>
+  <%# add an automated spinner to your form when the list is refreshed %>
+  <%= render_filterrific_spinner %>
+<% end %>
 
-  <tbody>
-    <% @publishers.each do |publisher| %>
-      <tr>
-        <td><%= link_to publisher.name, publisher_show_path(publisher) %></td>
-        <td><%= publisher.publications.count %></td>
-        <td><%= publisher.scenarios.count %></td>
-        <td><%= publisher.games.count %></td>
-        <td>WIP</td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
+    <%= render(
+      partial: 'publishers/list',
+      locals: { publishers: @publishers }
+    ) %>
+</br>
 
 <%= link_to 'New Publisher', new_publisher_path if logged_in?(:admin) %>
