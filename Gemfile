@@ -66,4 +66,5 @@ gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'petergate', '~> 1.8'
 gem 'sendgrid-ruby'
 gem 'friendly_id', '~> 5.1'
-gem "bootstrap-table-rails"
+gem 'filterrific'
+gem 'kaminari'

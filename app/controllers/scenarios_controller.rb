@@ -4,7 +4,19 @@ class ScenariosController < ApplicationController
 
   # GET /scenarios
   def index
-    @scenarios = Scenario.all
+    @filterrific = initialize_filterrific(
+      Scenario,
+      params[:filterrific],
+      select_options: {
+        sorted_by: Scenario.options_for_sorted_by
+      },
+      available_filters: [:sorted_by, :search_query],
+    ) or return
+    @scenarios = @filterrific.find.page params[:page]
+    rescue ActiveRecord::RecordNotFound => e
+      # There is an issue with the persisted param_set. Reset it.
+      puts "Had to reset filterrific params: #{ e.message }"
+    redirect_to(reset_filterrific_url(format: :html)) and return
   end
 
   # GET /scenarios/1

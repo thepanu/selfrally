@@ -1,0 +1,27 @@
+<div id="filterrific_results">
+<table class="table">
+  <thead>
+    <tr>
+      <th data-sortable="true"><%= filterrific_sorting_link(@filterrific, :name) %></th>
+      <th data-sortable="true">Publications</th>
+      <th data-sortable="true">Scenarios</th>
+      <th data-sortable="true">Games</th>
+      <th data-sortable="true">Average Rating</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% publishers.each do |publisher| %>
+        <tr>
+        <td><%= link_to publisher.name, publisher_show_path(publisher) %></td>
+        <td><%= publisher.publications.count %></td>
+        <td><%= publisher.scenarios.count %></td>
+        <td><%= publisher.games.count %></td>
+        <td>WIP</td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+</br>
+<%= paginate publishers %>
+</div>

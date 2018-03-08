@@ -15,5 +15,4 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
-//= require bootstrap-table
-//= require_tree .
+//= require filterrific/filterrific-jquery
