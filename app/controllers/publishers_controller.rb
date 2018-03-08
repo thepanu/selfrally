@@ -4,7 +4,6 @@ class PublishersController < ApplicationController
 
   # GET /publishers
   def index
-    #@publishers = Publisher.all
     @filterrific = initialize_filterrific(
       Publisher,
       params[:filterrific],

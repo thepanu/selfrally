@@ -1,0 +1,24 @@
+<div id="filterrific_results">
+<table class="table">
+  <thead>
+    <tr>
+      <th data-sortable="true"><%= filterrific_sorting_link(@filterrific, :name) %></th>
+      <th data-sortable="true">Publishing year</th>
+      <th data-sortable="true">Publisher</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% publications.each do |publication| %>
+        <tr>
+          <td><%= link_to publication.name, publication_show_path(publication) %></td>
+          <td><%= publication.publishing_year %></td>
+          <td><%= link_to publication.publisher.name, publisher_show_path(publication.publisher) %></td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+</br>
+<%= paginate publications %>
+</div>
+

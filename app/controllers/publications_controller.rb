@@ -4,7 +4,19 @@ class PublicationsController < ApplicationController
 
   # GET /publications
   def index
-    @publications = Publication.all
+    @filterrific = initialize_filterrific(
+      Publication,
+      params[:filterrific],
+      select_options: {
+        sorted_by: Publication.options_for_sorted_by
+      },
+      available_filters: [:sorted_by, :search_query],
+    ) or return
+    @publications = @filterrific.find.page params[:page]
+    rescue ActiveRecord::RecordNotFound => e
+      # There is an issue with the persisted param_set. Reset it.
+      puts "Had to reset filterrific params: #{ e.message }"
+    redirect_to(reset_filterrific_url(format: :html)) and return
   end
 
   # GET /publications/1

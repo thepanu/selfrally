@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Publishers</h1>
+
+<table data-toggle="table" data-search="true" data-mobile-responsive="true" data-pagination="true" data-page-size=25>
+  <thead>
+    <tr>
+      <th data-sortable="true">Name</th>
+      <th data-sortable="true">Publications</th>
+      <th data-sortable="true">Scenarios</th>
+      <th data-sortable="true">Games</th>
+      <th data-sortable="true">Average Rating</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @publishers.each do |publisher| %>
+      <tr>
+        <td><%= link_to publisher.name, publisher_show_path(publisher) %></td>
+        <td><%= publisher.publications.count %></td>
+        <td><%= publisher.scenarios.count %></td>
+        <td><%= publisher.games.count %></td>
+        <td>WIP</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @publishers %>
+<br>
+
+<%= link_to 'New Publisher', new_publisher_path if logged_in?(:admin) %>
