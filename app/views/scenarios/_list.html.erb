@@ -1,0 +1,29 @@
+<div id="filterrific_results">
+<table class="table">
+  <thead>
+    <tr>
+      <th data-sortable="true"><%= filterrific_sorting_link(@filterrific, :name) %></th>
+      <th data-sortable="true">Belligerents</th>
+      <th data-sortable="true">Scenario date</th>
+      <th data-sortable="true">Turns</th>
+      <th data-sortable="true">Location</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% scenarios.each do |scenario| %>
+      <tr>
+        <td><%= link_to scenario.name, scenario_show_path(scenario) %></td>
+        <td><%= scenario.belligerents %></td>
+        <td><%= scenario.scenario_date %></td>
+        <td><%= scenario.gameturns %></td>
+        <td><%= scenario.location_id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</br>
+<%= paginate scenarios %>
+</div>
+
+

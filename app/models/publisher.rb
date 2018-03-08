@@ -1,6 +1,7 @@
 class Publisher < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
+  paginates_per 15
 
   filterrific(
     default_filter_params: { sorted_by: 'name_asc' },
