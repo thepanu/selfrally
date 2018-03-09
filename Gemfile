@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 3.6.0'
 end
 
 group :development do
@@ -45,7 +46,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-    gem 'parity', '~> 2.2', '>= 2.2.1'
+  gem 'parity', '~> 2.2', '>= 2.2.1'
+  gem 'spring-commands-rspec'
 end
 gem 'mysql2' #Siirretty tänne devistä jos import taski ei estäisi Heroku pushia
 
@@ -68,3 +70,4 @@ gem 'sendgrid-ruby'
 gem 'friendly_id', '~> 5.1'
 gem 'filterrific'
 gem 'kaminari'
+
