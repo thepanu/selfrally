@@ -11,14 +11,17 @@ RSpec.describe Publisher, type: :model do
         name: "Vaihtoehto"
       )
   end
-  it "returns publishers that match the search term" do
-    byebug
-    expect(Publisher.search_query("Julk")).to include(@publisher, @publisher2)
-    expect(Publisher.search_query("Julk")).not_to include(@publisher3)
-    expect(Publisher.search_query("vaiht")).to include(@publisher3)
+  describe "search publisher name for a term" do
+    context "when match is found"
+      it "returns publishers that match the search term" do
+        expect(Publisher.search_query("Julk")).to include(@publisher, @publisher2)
+        expect(Publisher.search_query("Julk")).not_to include(@publisher3)
+        expect(Publisher.search_query("vaiht")).to include(@publisher3)
+      end
+    end
+    context "when match is not found" do
+      it "returns empty collections when no results are found" do
+        expect(Publisher.search_query("temppu")).to be_empty
+      end
+    end
   end
-  it "returns empty collections when no results are found" do
-    expect(Publisher.search_query("temppu")).to be_empty
-  end
-
-end

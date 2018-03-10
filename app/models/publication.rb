@@ -15,7 +15,7 @@ class Publication < ApplicationRecord
   has_many :scenarios, :through => :scenario_publications
   has_many :games, :through => :scenarios
   validates :name, presence: true, uniqueness: true  
-  #validates :
+  
   scope :search_query, lambda { |query|
     where("name ILIKE ?", "%#{sanitize_sql_like(query)}%")
   }
