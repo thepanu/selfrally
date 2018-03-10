@@ -13,7 +13,8 @@ class Publisher < ApplicationRecord
   has_many :publications
   has_many :scenarios, through: :publications
   has_many :games, through: :scenarios
-
+  
+  validates :name, presence: true, uniqueness: true
   scope :search_query, lambda { |query|
     where("name ILIKE ?", "%#{sanitize_sql_like(query)}%")
   }

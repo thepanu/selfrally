@@ -1,7 +1,8 @@
 class Publication < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
-  paginates_per 15
+ # paginates_per 15
+  
   filterrific(
     default_filter_params: { sorted_by: 'name_asc' },
     available_filters: [
@@ -13,6 +14,8 @@ class Publication < ApplicationRecord
   has_many :scenario_publications
   has_many :scenarios, :through => :scenario_publications
   has_many :games, :through => :scenarios
+  validates :name, presence: true, uniqueness: true  
+  #validates :
   scope :search_query, lambda { |query|
     where("name ILIKE ?", "%#{sanitize_sql_like(query)}%")
   }
