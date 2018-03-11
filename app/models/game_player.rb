@@ -1,3 +1,4 @@
+# A participant in a game
 class GamePlayer < ApplicationRecord
   enum result: {
     draw: 0,
@@ -7,5 +8,4 @@ class GamePlayer < ApplicationRecord
   belongs_to :game, inverse_of: :game_players
   belongs_to :user, optional: true
   belongs_to :force
-
 end
