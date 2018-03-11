@@ -1,27 +1,20 @@
+# Scenario controller
 class ScenariosController < ApplicationController
-  before_action :set_scenario, only: [:show, :edit, :update, :destroy]
-  access all: [:index, :show, :new, :edit, :create, :update, :destroy], user: :all
+  before_action :set_scenario, only: %i[show edit update destroy]
+  access all: %i[index show new edit create update destroy], user: :all
 
   # GET /scenarios
   def index
-    @filterrific = initialize_filterrific(
-      Scenario,
-      params[:filterrific],
-      select_options: {
-        sorted_by: Scenario.options_for_sorted_by
-      },
-      available_filters: [:sorted_by, :search_query],
-    ) or return
+    (@filterrific = init_filterrific) || return
     @scenarios = @filterrific.find.page params[:page]
-    rescue ActiveRecord::RecordNotFound => e
-      # There is an issue with the persisted param_set. Reset it.
-      puts "Had to reset filterrific params: #{ e.message }"
-    redirect_to(reset_filterrific_url(format: :html)) and return
+  rescue ActiveRecord::RecordNotFound => error
+    # There is an issue with the persisted param_set. Reset it.
+    puts "Had to reset filterrific params: #{error.message}"
+    redirect_to(reset_filterrific_url(format: :html)) && return
   end
 
   # GET /scenarios/1
-  def show
-  end
+  def show; end
 
   # GET /scenarios/new
   def new
@@ -29,8 +22,7 @@ class ScenariosController < ApplicationController
   end
 
   # GET /scenarios/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /scenarios
   def create
@@ -59,13 +51,25 @@ class ScenariosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_scenario
-      @scenario = Scenario.friendly.find(params[:slug])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def scenario_params
-      params.require(:scenario).permit(:name, :scenario_date, :gameturn, :location_id, :slug)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_scenario
+    @scenario = Scenario.friendly.find(params[:slug])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def scenario_params
+    params.require(:scenario).permit(:name, :scenario_date, :gameturn, :location_id, :slug)
+  end
+
+  def init_filterrific
+    initialize_filterrific(
+      Scenario,
+      params[:filterrific],
+      select_options: {
+        sorted_by: Scenario.options_for_sorted_by
+      },
+      available_filters: %i[sorted_by search_query]
+    )
+  end
 end

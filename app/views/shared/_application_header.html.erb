@@ -8,8 +8,8 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <%= header_helper "nav_item", "nav-link", "li" %>
-        <%= login_helper "nav-item", "nav-link" %>
+        <%= header_helper({:tag_style => "nav_item", :link_style => "nav-link", :tag_type => "li"})%>
+        <%= login_helper({:tag_style => "nav_item", :link_style => "nav-link", :tag_type => "li"})%>
       </ul>
       <form class="form-inline mt-2 mt-md-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">

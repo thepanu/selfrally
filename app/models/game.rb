@@ -1,3 +1,4 @@
+# Game model
 class Game < ApplicationRecord
   enum status: {
     ongoing: 0,
@@ -6,6 +7,10 @@ class Game < ApplicationRecord
   }
   has_many :game_players, dependent: :destroy, inverse_of: :game
   belongs_to :scenario
-  
+
   accepts_nested_attributes_for :game_players, allow_destroy: true
+
+  def no_players?
+    game_players.empty?
+  end
 end
