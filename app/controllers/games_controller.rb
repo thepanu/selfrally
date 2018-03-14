@@ -1,7 +1,7 @@
 # Games controller
 class GamesController < ApplicationController
   before_action :set_game, only: %i[show edit update destroy prepare_players]
-  access all: %i[index show new edit create update destroy], user: :all
+  access all: %i[show index], user: { except: [:destroy] }, admin: :all
 
   # GET /games
   def index

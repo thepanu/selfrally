@@ -4,7 +4,7 @@ class GuestUser < User
     @first_name = 'Guest' # guest_user_params[:first_name]
     @last_name = 'User' # guest_user_params[:last_name]
     @email = 'guest@example.com' # guest_user_params[:email]
-    @roles = [:user]
+    @roles = [:guest]
   end
 
   #  private
