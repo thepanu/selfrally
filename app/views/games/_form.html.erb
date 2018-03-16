@@ -4,9 +4,9 @@
       <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
 
       <ul>
-      <% game.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% game.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -18,34 +18,43 @@
 
   <div class="form-group">
     <%= form.label :scenario_id %>
-    <%= form.collection_select :scenario_id, Scenario.all, :id, :name, {}, { class: "form-control" }   %>
+    <%= form.collection_select :scenario_id, Scenario.all, :id, :name, {:include_blank => true}, { class: "form-control", id: "scenario-select" } %>
   </div>
-
-  <div class="form-group">
-    <%= form.label :gamingtime %>
-    <%= form.text_field :gamingtime, id: :game_gamingtime, class: "form-control"  %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :turnsplayed %>
-    <%= form.text_field :turnsplayed, id: :game_turnsplayed, class: "form-control"  %>
-  </div>
-
-    <%= form.fields_for :game_players  do |pf| %>
+  <div class="row">
+    <div class="col">
       <div class="form-group">
-        <%= pf.label :name %>
-        <%= pf.collection_select :user_id, User.all, :id, :full_name, {}, {selected: pf.object.user_id} %>
+        <%= form.label :gamingtime %>
+        <%= form.text_field :gamingtime, id: :game_gamingtime, class: "form-control"  %>
       </div>
-    <% end %>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <%= form.label :turnsplayed %>
+        <%= form.text_field :turnsplayed, id: :game_turnsplayed, class: "form-control"  %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-check form-check-inline">
+        <%= form.label :status %><br>
+        <%= form.collection_radio_buttons :status, Game.statuses.keys[0..1].map { |w| [w.humanize, w] }, :second, :first, html_options: { class: 'form-control' } do |b|  %>
+          <%= b.label { b.radio_button + " " + b.text } %> 
+<% end %>
+      </div>
+    </div>
+</div>
+  <%= form.fields_for :game_players  do |pf| %>
+    <div class="form-group">
+      <%= pf.label :name %>
+      <%= pf.collection_select :user_id, User.all, :id, :full_name, {}, {selected: pf.object.user_id} %>
+    </div>
+  <% end %>
 
 
 
 
-
-    <%= form.label :status %>
-    <%= form.select :status, Game.statuses.keys.map { |w| [w.humanize, w] }, class: "form-control"  %>
 
   <div class="actions">
     <%= form.submit  "Create new game", class: "btn btn-primary"%>
+    <%= link_to 'Cancel', games_path, :class => "btn btn-secondary"%>
   </div>
 <% end %>
