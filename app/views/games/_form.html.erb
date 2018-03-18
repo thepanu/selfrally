@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-
+  <div class="card-body">
   <div class="form-group">
     <%= form.label :date %>
     <%= form.date_select :date, id: :game_date, class: "form-control"  %>
@@ -42,6 +42,8 @@
       </div>
     </div>
   </div>
+  </div>
+  <div class="card-deck">
   <% i = 1 %>
   <%= form.fields_for :game_players  do |pf| %>
     <div class="form-group">
@@ -49,7 +51,7 @@
       <% i += 1 %>
     </div>
   <% end %>
-
+  </div>
 
 
 
