@@ -35,6 +35,7 @@ gem 'jbuilder', '~> 2.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_girl_rails', '~> 4.8.0'
   gem 'rspec-rails', '~> 3.6.0'
 end
 
@@ -69,8 +70,10 @@ gem 'bcrypt', '~> 3.1.11'
 
 gem 'bootstrap', '~> 4.0.0.beta2'
 gem 'filterrific'
+gem 'font-awesome-rails'
 gem 'friendly_id', '~> 5.1'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'kaminari'
 gem 'petergate', '~> 1.8'
+gem 'select2-rails'
 gem 'sendgrid-ruby'

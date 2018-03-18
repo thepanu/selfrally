@@ -1,30 +1,39 @@
-<p id="notice"><%= notice %></p>
+<div class="card">
+    <div class="card-header">
+      Gaming report nr. <%= @game.id %><%= game_status(@game.status) %>
+    <span class="float-right">
+      <%= link_to 'Edit', edit_game_path(@game), class: "btn btn-primary" %> 
+      <%= link_to 'Back to list of reports', games_path, class: "btn btn-secondary"  %>
+    </span>
+    </div>
+    <div class="card-body center-text">
+      <table class="table-sm table-striped">
+        <tr>
+          <td>Game End</td>
+          <td></td>
+          <td><%= @game.date %></td>
+        </tr>
+        <tr>
+          <td>Scenario</td>
+          <td colspan=2><%= link_to @game.scenario.name, scenario_show_path(@game.scenario) %></td>
+        </tr>    
+        <tr>
+          <td>Game turns Played</td>
+          <td colspan=2>
+            <%= @game.turnsplayed %> out of <%= @game.scenario.gameturns %> in the scenario</td>
+        </tr>    
+        <tr>
+          <td>Gaming time</td>
+          <td colspan=2><%= @game.gamingtime %></td>
+        </tr>    
+        <tr>
+      </table>
+    <div class="card-deck">
+      <% @game.game_players.each do |player| %>
+        <%= render partial: 'games/player_card', locals: { player: player } %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-<p>
-  <strong>Date:</strong>
-  <%= @game.date %>
-</p>
 
-<p>
-  <strong>Scenario:</strong>
-  <%= @game.scenario_id %>
-</p>
-
-<p>
-  <strong>Gamingtime:</strong>
-  <%= @game.gamingtime %>
-</p>
-
-<p>
-  <strong>Turnsplayed:</strong>
-  <%= @game.turnsplayed %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @game.status %>
-</p>
-
-<%= render 'players' %>
-<%= link_to 'Edit', edit_game_path(@game) %> |
-<%= link_to 'Back', games_path %>

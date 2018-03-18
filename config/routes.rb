@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'publisher/:slug', to: 'publishers#show', as: 'publisher_show'
   get 'publication/:slug', to: 'publications#show', as: 'publication_show'
   get 'scenario/:slug', to: 'scenarios#show', as: 'scenario_show'
+  get 'scenario/:slug/edit', to: 'scenarios#edit', as: 'scenario_edit'
   get 'admin/users'
   # get 'admin/edit_user'
   # resources :admin

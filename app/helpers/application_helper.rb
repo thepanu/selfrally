@@ -1,5 +1,23 @@
 # All general view helpers go here. Header and sidebar menu contents omitted from Rubocop
 module ApplicationHelper
+  def game_status(status)
+    format(' <span class="badge badge-%<badge>s">%<status>s</span>',
+           badge: game_status_badge(status),
+           status: status.capitalize).html_safe
+  end
+
+  def game_badges
+    {
+      'locked' => 'succes',
+      'finished' => 'primary',
+      'ongoing' => 'info'
+    }
+  end
+
+  def game_status_badge(status)
+    game_badges[status]
+  end
+
   def login_helper(tag_info)
     html = ''
     if !current_user.is_a?(GuestUser)
@@ -12,60 +30,27 @@ module ApplicationHelper
     html.html_safe
   end
 
-  def sidebar_items # rubocop:disable Metrics/MethodLength
-    [
-      # {
-      #   url: "#",
-      #   title: "Player ratings"
-      # },
-      # {
-      #   url: "#",
-      #   title: "Gaming results"
-      # },
-      {
-        url: publishers_path,
-        title: 'Scenario publishers'
-      },
-      {
-        url: publications_path,
-        title: 'Scenario publications'
-      },
-      {
-        url: scenarios_path,
-        title: 'Scenario index'
-      }
-    ]
-  end
-
   def header_items # rubocop:disable Metrics/MethodLength
     [
       {
-        url: root_path,
-        title: 'Home'
-      },
-      {
         url: new_game_path,
-        title: 'Add a game report'
+        title: 'Add a game report',
+        role: :user
       },
       {
         url: edit_user_registration_path,
-        title: 'Profile'
+        title: 'Profile',
+        role: :user
       }
     ]
-  end
-
-  def sidebar_helper(tag_info)
-    html = ''
-    sidebar_items.each do |item|
-      html << menu_link_builder(tag_info, { url: item[:url], title: item[:title] }, method: nil, rel: nil)
-    end
-    html.html_safe
   end
 
   def header_helper(tag_info)
     html = ''
     header_items.each do |item|
-      html << menu_link_builder(tag_info, { url: item[:url], title: item[:title] }, method: nil, rel: nil)
+      if logged_in?(item[:role])
+        html << menu_link_builder(tag_info, { url: item[:url], title: item[:title] }, method: nil, rel: nil)
+      end
     end
     html.html_safe
   end
@@ -95,5 +80,16 @@ module ApplicationHelper
 
   def active?(path)
     'active' if current_page? path[:url]
+  end
+
+  def submit_button_texts
+    {
+      'edit' => 'Save changes',
+      'new' => 'Create new'
+    }
+  end
+
+  def submit_button_helper(action)
+    submit_button_texts[action]
   end
 end
