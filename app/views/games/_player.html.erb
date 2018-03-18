@@ -1,0 +1,4 @@
+     <%= pf.label :name %>
+      <%= pf.collection_select :user_id, User.all, :id, :full_name, {:include_blank => true}, {selected: pf.object.user_id, id: "player-select-#{i}"} %>
+      <%= pf.label "winner?" %>
+      <%= radio_button_tag "game[winner_index]", pf.index, pf.object.winner %> 

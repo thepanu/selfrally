@@ -33,6 +33,10 @@ class Scenario < ApplicationRecord
     forces.pluck(:name).map(&:capitalize).join(' - ')
   end
 
+  def initiative
+    scenario_forces.order(initiative: :desc).first.force.name
+  end
+
   def self.options_for_sorted_by
     [
       ['name (a-z)', 'name_asc'],

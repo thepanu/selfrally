@@ -11,6 +11,7 @@
       <th>Gamingtime</th>
       <th>Turnsplayed</th>
       <th>Status</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -23,6 +24,7 @@
         <td><%= game.gamingtime %></td>
         <td><%= game.turnsplayed %></td>
         <td><%= game.status %></td>
+        <td><%= link_to "Delete", game, method: :delete %></td>
       </tr>
     <% end %>
   </tbody>

@@ -41,11 +41,12 @@
 <% end %>
       </div>
     </div>
-</div>
+  </div>
+  <% i = 1 %>
   <%= form.fields_for :game_players  do |pf| %>
     <div class="form-group">
-      <%= pf.label :name %>
-      <%= pf.collection_select :user_id, User.all, :id, :full_name, {}, {selected: pf.object.user_id} %>
+      <%= render partial: 'games/player', locals: { pf: pf, i: i } %>
+      <% i += 1 %>
     </div>
   <% end %>
 
@@ -54,7 +55,7 @@
 
 
   <div class="actions">
-    <%= form.submit  "Create new game", class: "btn btn-primary"%>
-    <%= link_to 'Cancel', games_path, :class => "btn btn-secondary"%>
+    <%= form.submit  submit_button_helper(action_name), class: "btn btn-primary"%>
+    <%= link_to 'Cancel', @game, :class => "btn btn-secondary"%>
   </div>
 <% end %>

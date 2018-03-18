@@ -1,5 +1,9 @@
-<h1>Editing Game</h1>
+<div class="card">
+  <div class="card-header">
+    Editing Game
+  </div>
+  <div class="card-body">
+    <%= render 'form', game: @game %>
+  </div>
+</div>
 
-<%= render 'form', game: @game %>
-<%= link_to 'Show', @game %> |
-<%= link_to 'Back', games_path %>

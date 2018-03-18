@@ -1,0 +1,22 @@
+  <div class="card<%= player.winner ? ' border-success' : '' %>" style="width: 18rem;">
+    <div class="card-header"><%= player.result.capitalize %>
+  </div>
+  <div class="card-body">
+    <img class="rounded mx-auto d-block" src="http://via.placeholder.com/120x120">
+  </div>
+  <div class="card-body text-center<%= player.winner ? ' bg-success' : '' %>">
+    <h5 class="card-title"><%= player.user.full_name %></h5>
+    <p class="card-text"><%= player.force.name %></p>
+  </div>
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Pregame Odds", value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Wagering Odds", value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Rating &Delta;".html_safe, value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Post-game Rating", value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Snakes", value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Boxcars", value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Beers", value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Scenario Rating", value: "WIP" } %></li>
+  </ul>   
+  </div>

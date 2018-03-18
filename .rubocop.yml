@@ -12,3 +12,7 @@ Metrics/LineLength:
 
 FrozenStringLiteralComment:
   Enabled: false
+
+Style/ConditionalAssignment:
+  EnforcedStyle: assign_to_condition
+
