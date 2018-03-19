@@ -1,4 +1,4 @@
-# Game model
+# Game model to handle game reports
 class Game < ApplicationRecord
   enum status: {
     ongoing: 0,
