@@ -1,14 +1,30 @@
-<div class="card">
+
 <div class="card-header">
   <%= pf.object.force.name %>
   <span class="float-right">
     <%= fa_icon "trophy" %>
     <%= radio_button_tag "game[winner_index]", pf.index, pf.object.winner %>
+  </span>
 </div>
 <div class="card-body">
-     
-     <%= pf.label :name %>
-      <%= pf.collection_select :user_id, User.all, :id, :full_name, {:include_blank => true}, {selected: pf.object.user_id, id: "player-select-#{i}"} %>
-       
-</div>
+  <div class="form-group row">
+    <%= pf.label :name, class: "col-sm-2 col-form-label" %>
+    <%= pf.collection_select :user_id, User.all, :id, :full_name, {:include_blank => true}, {selected: pf.object.user_id, id: "player-select-#{i}"} %>
+  </div>
+  <div class="form-group row">
+    <%= pf.label :snake_eyes, class: "col-sm-10 col-form-label" %>
+    <%= pf.text_field :snake_eyes, class: "col-sm-2" %>
+  </div>
+  <div class="form-group row">
+    <%= pf.label :boxcars, class: "col-sm-10 col-form-label" %>
+    <%= pf.text_field :boxcars, class: "col-sm-2"  %>
+  </div>
+  <div class="form-group row">
+    <%= pf.label :beers, class: "col-sm-10 col-form-label" %>
+    <%= pf.text_field :beers, class: "col-sm-2"  %>
+  </div>
+  <div class="form-group row">
+    <%= pf.label :rating, class: "col-sm-10 col-form-label" %>
+    <%= pf.text_field :rating, disabled: true, class: "col-sm-2" %>
+  </div>
 </div>
