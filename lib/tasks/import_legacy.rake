@@ -87,10 +87,20 @@ namespace(:db) do
     desc 'import game players'
     task game_players: :environment do
       legacy_database.query('SELECT * FROM game_player').each do |gp|
-        GamePlayer.create!(game_id: gp['game'],
-                           user_id: gp['player'],
-                           result: gp['result'],
-                           force_id: Force.where(name: gp['side']).first.id)
+        labels = ["snakeeys", "boxcars", "beers", "rating"]
+        stats = {}
+        legacy_database.query("SELECT * from game_player_statistics WHERE game = #{gp['game']} AND player = #{gp['player']}").each do |stat|
+          stats[stat['parameter']] = stat['value']
+        end
+        GamePlayer.create!(
+          game_id: gp['game'],
+          user_id: gp['player'],
+          winner: (gp['result'] == 1 ? true : false),
+          force_id: Force.where(name: gp['side']).first.id,
+          snake_eyes: stats["snakeeyes"],
+          boxcars: stats["boxcars"],
+          beers: stats["beers"],
+          rating: stats["rating"])
       end
     end
     desc 'import scenario forces'
