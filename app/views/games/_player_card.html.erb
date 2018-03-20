@@ -14,9 +14,9 @@
     <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Wagering Odds", value: "WIP" } %></li>
     <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Rating &Delta;".html_safe, value: "WIP" } %></li>
     <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Post-game Rating", value: "WIP" } %></li>
-    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Snakes", value: "WIP" } %></li>
-    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Boxcars", value: "WIP" } %></li>
-    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Beers", value: "WIP" } %></li>
-    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Scenario Rating", value: "WIP" } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Snakes", value: player.snake_eyes } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Boxcars", value: player.boxcars } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Beers", value: player.beers } %></li>
+    <li class="list-group-item"><%= render partial: 'games/player_stats', locals: { title: "Scenario Rating", value: player.rating } %></li>
   </ul>   
   </div>
