@@ -14,4 +14,12 @@ class Game < ApplicationRecord
   def no_players?
     game_players.empty?
   end
+
+  def players_for_rating
+    output = []
+    game_players.each do |player|
+      output << player.for_rating
+    end
+    output
+  end
 end

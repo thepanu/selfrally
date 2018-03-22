@@ -1,10 +1,24 @@
 # The class to calculate ratings new ratings for players after the game and expected result prior to game
 # Takes in players as array of hashes and results as array.
 class GameRating
+  DEFAULT_RATING = 1500
+  ELO_K = 32
+  PROVISIONAL_LIMIT = 10
+
   def initialize(players)
     raise ArgumentError, 'Only two players allowed!' if players.size > 2
     @players = players
+    @players.each do |player|
+      player[:previous_rating] ||= DEFAULT_RATING
+    end
     update_expected
+  end
+
+  def provisional?
+    @players.each do |player|
+      return true if player[:games] <= 10
+    end
+    false
   end
 
   def game_ended?
@@ -26,7 +40,7 @@ class GameRating
   def result
     if game_ended?
       @players.each do |player|
-        player[:rating_delta] = (32 * (player[:score] - player[:expected_score])).round(1)
+        player[:rating_delta] = (ELO_K * (player[:score] - player[:expected_score])).round(1)
         player[:new_rating] = (player[:previous_rating] + player[:rating_delta]).round(1)
       end
     end

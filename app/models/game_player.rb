@@ -18,9 +18,8 @@ class GamePlayer < ApplicationRecord
   def for_rating
     {
       previous_rating: previous_rating,
-      expected_score: nil,
-      rating_delta: nil,
-      new_rating: nil
+      score: (winner ? 1 : 0),
+      games: GamePlayer.joins(:game).where('games.date < ? AND game_players.user_id = ?', game.date, user_id).size
     }
   end
 end
