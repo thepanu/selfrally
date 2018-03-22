@@ -14,4 +14,13 @@ class GamePlayer < ApplicationRecord
   def init
     self.result ||= 0
   end
+
+  def for_rating
+    {
+      previous_rating: previous_rating,
+      expected_score: nil,
+      rating_delta: nil,
+      new_rating: nil
+    }
+  end
 end
