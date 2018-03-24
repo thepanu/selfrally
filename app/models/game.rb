@@ -15,10 +15,10 @@ class Game < ApplicationRecord
     game_players.empty?
   end
 
-  def players_for_rating
+  def players_for_rating(player_ids = game_players.pluck(:user_id), scores = [0, 0])
     output = []
-    game_players.each do |player|
-      output << player.for_rating
+    User.where(id: player_ids).each_with_index do |player, index|
+      output << player.for_rating(date, scores[index])
     end
     output
   end

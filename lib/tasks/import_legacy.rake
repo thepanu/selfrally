@@ -92,6 +92,7 @@ namespace(:db) do
         legacy_database.query("SELECT * from game_player_statistics WHERE game = #{gp['game']} AND player = #{gp['player']}").each do |stat|
           stats[stat['parameter']] = stat['value']
         end
+        score = legacy_database.query("SELECT * from score WHERE game = #{gp['game']} AND player = #{gp['player']} LIMIT 1").first
         GamePlayer.create!(
           game_id: gp['game'],
           user_id: gp['player'],
@@ -100,7 +101,18 @@ namespace(:db) do
           snake_eyes: stats["snakeeyes"],
           boxcars: stats["boxcars"],
           beers: stats["beers"],
-          rating: stats["rating"])
+          rating: stats["rating"],
+          previous_rating: score['pre_score'] ||= 1500,
+          rating_delta: score['score'] ||= 0,
+          new_rating: score['post_score'] ||= 1500)
+      end
+    end
+    desc 'update expected score for imported game_players'
+    task update_expected: :environment do
+      GamePlayer.where(expected_score: nil).each do |gp|
+        gp.update_attributes(
+          expected_score: GameRating.new(gp.game.players_for_rating).result.find {|player| player[:id] == gp.id }[:expected_score]
+        )
       end
     end
     desc 'import scenario forces'

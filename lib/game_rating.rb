@@ -2,6 +2,7 @@
 # Takes in players as array of hashes and results as array.
 class GameRating
   DEFAULT_RATING = 1500
+  DEFAULT_SCORE = 0
   ELO_K = 32
   PROVISIONAL_LIMIT = 10
 
@@ -10,13 +11,14 @@ class GameRating
     @players = players
     @players.each do |player|
       player[:previous_rating] ||= DEFAULT_RATING
+      player[:score] ||= DEFAULT_SCORE
     end
     update_expected
   end
 
   def provisional?
     @players.each do |player|
-      return true if player[:games] <= 10
+      return true if player[:games] <= PROVISIONAL_LIMIT
     end
     false
   end

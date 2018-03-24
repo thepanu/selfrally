@@ -22,4 +22,28 @@ class User < ApplicationRecord
       lastname: last_name || ''
     )
   end
+
+  # :reek:DuplicateMethodCall
+  def fetch_previous_rating(date)
+    # return 1500 if players_previous_plays(date).first.nil?
+    players_previous_plays(date).first.new_rating unless players_previous_plays(date).empty?
+  end
+
+  def for_rating(date, winner = 0)
+    # byebug
+    {
+      user_id: id,
+      previous_rating: fetch_previous_rating(date),
+      score: winner,
+      games: players_previous_plays(date).size
+    }
+  end
+
+  def players_previous_plays(date)
+    # byebug
+    GamePlayer.joins(:game).where(
+      'games.date < ? AND game_players.user_id = ?',
+      date, id
+    ).order('games.date desc')
+  end
 end

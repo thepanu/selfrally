@@ -11,15 +11,32 @@ class GamePlayer < ApplicationRecord
 
   after_initialize :init
 
+  #  def players_previous_plays
+  #    #byebug
+  #    GamePlayer.joins(:game).where(
+  #      'games.date < ? AND game_players.user_id = ?',
+  #      game.date, user_id
+  #    ).order('games.date desc')
+  #  end
+
   def init
     self.result ||= 0
+    #    self.previous_rating ||= fetch_previous_rating if user_id.present?
   end
 
-  def for_rating
-    {
-      previous_rating: previous_rating,
-      score: (winner ? 1 : 0),
-      games: GamePlayer.joins(:game).where('games.date < ? AND game_players.user_id = ?', game.date, user_id).size
-    }
-  end
+  #  def fetch_previous_rating
+  #    byebug
+  #    return 1500 if players_previous_plays.first.nil?
+  #    players_previous_plays.first.new_rating
+  #  end
+  #
+  #  def self.for_rating(player_id)
+  #    byebug
+  #    {
+  #      id: id,
+  #      previous_rating: fetch_previous_rating,
+  #      score: (winner ? 1 : 0),
+  #      games: players_previous_plays.size
+  #    }
+  #  end
 end

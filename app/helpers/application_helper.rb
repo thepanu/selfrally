@@ -1,5 +1,15 @@
 # All general view helpers go here. Header and sidebar menu contents omitted from Rubocop
 module ApplicationHelper
+  def wagering_odds(expected_score)
+    return 'unknown' if expected_score.blank?
+    (1 / expected_score).round(2)
+  end
+
+  def pregame_odds(expected_score)
+    return 'unknown' if expected_score.blank?
+    "#{(expected_score * 100).round(1)}%"
+  end
+
   def game_status(status)
     format(' <span class="badge badge-%<badge>s">%<status>s</span>',
            badge: game_status_badge(status),

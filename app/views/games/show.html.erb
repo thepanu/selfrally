@@ -27,6 +27,9 @@
           <td colspan=2><%= @game.gamingtime %></td>
         </tr>    
         <tr>
+          <td>Provisional</td>
+          <td><%= @game.provisional %></td>
+        </tr>
       </table>
     <div class="card-deck">
       <% @game.game_players.each do |player| %>
