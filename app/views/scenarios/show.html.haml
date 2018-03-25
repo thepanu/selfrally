@@ -1,0 +1,43 @@
+.card
+  .card-header= @scenario.name
+  .card-body
+    .row
+      .col
+        %h6 Belligerents
+      .col= @scenario.belligerents
+    .row
+      .col
+        %h6 Counters
+      .col
+        %p WIP counters
+        %p WIP counters
+        %p WIP counters
+    .row
+      .col
+        %h6 Date
+      .col
+        %h6 Location
+      .col
+        %h6 Initiative
+      .col
+        %h6 Game Turns
+    .row
+      .col= @scenario.scenario_date
+      .col= @scenario.location_id
+      .col= @scenario.initiative
+      .col= @scenario.gameturns
+    .row
+      .col
+        %h4 Publications
+    - @scenario.publications.each do |publication|
+      .row  
+        .col 
+          %strong #{publication.publishing_year} 
+        .col by #{link_to publication.publisher.name, publication.publisher }
+        .col in #{link_to publication.name, publication}
+    .row
+      .col
+        %h4 ASL Rules Employed
+    .row
+      .col
+        %p WIP
