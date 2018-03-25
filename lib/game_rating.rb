@@ -38,11 +38,19 @@ class GameRating
     10**(rated_player / 400.0) / (10**(rated_player / 400.0) + 10**(other_player / 400.0))
   end
 
+  def calculate_delta(score, expected_score)
+    if provisional?
+      0
+    else
+      (ELO_K * (score - expected_score)).round(1)
+    end
+  end
+
   # :reek:FeatureEnvy
   def result
     if game_ended?
       @players.each do |player|
-        player[:rating_delta] = (ELO_K * (player[:score] - player[:expected_score])).round(1)
+        player[:rating_delta] = calculate_delta(player[:score], player[:expected_score])
         player[:new_rating] = (player[:previous_rating] + player[:rating_delta]).round(1)
       end
     end

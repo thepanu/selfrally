@@ -35,8 +35,9 @@ class GamesController < ApplicationController
 
   # PATCH/PUT /games/1
   def update
-    game_params = update_params(params, @game)
+    game_params = update_params(params)
     if @game.update(game_params)
+      @game.update_ratings
       redirect_to @game, notice: 'Game was successfully updated.'
     else
       render :edit
@@ -58,45 +59,17 @@ class GamesController < ApplicationController
 
   private
 
-  # :reek:DuplicateMethodCall :reek:FeatureEnvy :reek:TooManyStatements :reek:UtilityFunction
-  def update_params(params, game) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  # :reek:DuplicateMethodCall :reek:TooManyStatements :reek:UtilityFunction
+  def update_params(params)
     winner_index = params[:game][:winner_index]
-    player_ids = []
-    scores = []
     params[:game][:game_players_attributes].each do |index|
-      player_ids << params[:game][:game_players_attributes][index][:user_id]
-      scores << (index == winner_index ? 1 : 0)
-    end
-    game_ratings = GameRating.new(game.players_for_rating(player_ids, scores))
-    params[:game][:provisional] = game_ratings.provisional?
-    params[:game][:status] = determine_status(game_ratings)
-    params[:game][:game_players_attributes].each do |index|
-      params[:game][:game_players_attributes][index] = update_players_params(
-        params[:game][:game_players_attributes][index],
-        game_ratings,
-        index == winner_index
-      )
+      if index == winner_index
+        params[:game][:game_players_attributes][index][:winner] = true
+        params[:game][:status] = 'finished'
+      end
     end
     params.permit!
     params[:game].except(:winner_index)
-  end
-
-  # :reek:UtilityFunction
-  def update_players_params(players_attributes, game_ratings, winner)
-    ratings = game_ratings.result.find { |player| player[:user_id] == players_attributes[:user_id].to_i }
-    updated = {
-      winner:  winner,
-      previous_rating: ratings[:previous_rating],
-      expected_score: ratings[:expected_score],
-      rating_delta: ratings[:rating_delta],
-      new_rating: ratings[:new_rating]
-    }
-    players_attributes.merge(updated)
-  end
-
-  # :reek:UtilityFunction
-  def determine_status(game_ratings)
-    game_ratings.game_ended? ? 'finished' : 'ongoing'
   end
 
   # Use callbacks to share common setup or constraints between actions.

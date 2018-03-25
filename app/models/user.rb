@@ -23,10 +23,31 @@ class User < ApplicationRecord
     )
   end
 
-  # :reek:DuplicateMethodCall
+  def elo
+    EloRating.new(fetch_previous_rating(Date.today))
+  end
+
+  def current_rating
+    elo.current_rating
+  end
+
+  def delta(score, opponents_rating)
+    elo.delta(score, opponents_rating)
+  end
+
+  def new_rating(score, opponents_rating)
+    elo.new_rating(score, opponents_rating)
+  end
+
+  def expected_score_against(opponents_rating)
+    elo.expected_score_against(opponents_rating)
+  end
+
+  # :reek:FeatureEnvy
   def fetch_previous_rating(date)
-    # return 1500 if players_previous_plays(date).first.nil?
-    players_previous_plays(date).first.new_rating unless players_previous_plays(date).empty?
+    prev_plays = previous_plays(date)
+    return nil if prev_plays.empty?
+    prev_plays.first.new_rating
   end
 
   def for_rating(date, winner = 0)
@@ -39,8 +60,7 @@ class User < ApplicationRecord
     }
   end
 
-  def players_previous_plays(date)
-    # byebug
+  def previous_plays(date)
     GamePlayer.joins(:game).where(
       'games.date < ? AND game_players.user_id = ?',
       date, id

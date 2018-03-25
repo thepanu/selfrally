@@ -15,11 +15,23 @@ class Game < ApplicationRecord
     game_players.empty?
   end
 
-  def players_for_rating(player_ids = game_players.pluck(:user_id), scores = [0, 0])
-    output = []
-    User.where(id: player_ids).each_with_index do |player, index|
-      output << player.for_rating(date, scores[index])
+  def provisional?
+    game_players.each do |play|
+      return true if play.user.previous_plays(date).size <= PROVISIONAL_LIMIT
     end
-    output
+    false
+  end
+
+  def opponent_for(player)
+    game_players.where.not(user_id: player.user_id).first.user
+  end
+
+  def update_ratings
+    update_attributes(provisional: provisional?)
+    game_players.each do |play|
+      opponents_rating = opponent_for(play).current_rating
+      play.update_ratings_pre(opponents_rating)
+      play.update_ratings_post(opponents_rating) if status == 'finished'
+    end
   end
 end
