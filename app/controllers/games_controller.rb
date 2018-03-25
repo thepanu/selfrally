@@ -1,5 +1,6 @@
 # Games controller
 class GamesController < ApplicationController
+  require 'game_rating'
   before_action :set_game, only: %i[show edit update destroy prepare_players]
   access all: %i[show index], user: { except: [:destroy] }, admin: :all
 
@@ -21,7 +22,8 @@ class GamesController < ApplicationController
 
   # POST /games
   def create
-    game_params = determine_winner(params)
+    #    game_params = determine_winner(params)
+    #    game_params = params[:game]
     @game = Game.create!(game_params)
     prepare_players
     if @game.save
@@ -33,8 +35,9 @@ class GamesController < ApplicationController
 
   # PATCH/PUT /games/1
   def update
-    game_params = determine_winner(params)
+    game_params = update_params(params)
     if @game.update(game_params)
+      @game.update_ratings
       redirect_to @game, notice: 'Game was successfully updated.'
     else
       render :edit
@@ -56,11 +59,14 @@ class GamesController < ApplicationController
 
   private
 
-  # :reek:UtilityFunction  and :reek:DuplicateMethodCall
-  def determine_winner(params)
+  # :reek:DuplicateMethodCall :reek:TooManyStatements :reek:UtilityFunction
+  def update_params(params)
     winner_index = params[:game][:winner_index]
     params[:game][:game_players_attributes].each do |index|
-      params[:game][:game_players_attributes][index][:winner] = index == winner_index
+      if index == winner_index
+        params[:game][:game_players_attributes][index][:winner] = true
+        params[:game][:status] = 'finished'
+      end
     end
     params.permit!
     params[:game].except(:winner_index)

@@ -9,14 +9,16 @@ $(document).on('turbolinks:load', function() {
     $("#player-select-1").select2({
     theme: "bootstrap",
     placeholder: "Please pick a player",
-    selectOnClose: true
+    selectOnClose: true,
+    width: '75%'
     }); 
 });
 $(document).on('turbolinks:load', function() { 
     $("#player-select-2").select2({
     theme: "bootstrap",
     placeholder: "Please pick a player",
-    selectOnClose: true
+    selectOnClose: true,
+    width: '75%'
     }); 
 });
 
