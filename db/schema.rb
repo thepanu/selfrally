@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180323193549) do
+ActiveRecord::Schema.define(version: 20180328152333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "counters", force: :cascade do |t|
+    t.string "name"
+    t.string "counter_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "forces", force: :cascade do |t|
     t.text "name"
@@ -62,6 +69,24 @@ ActiveRecord::Schema.define(version: 20180323193549) do
     t.boolean "provisional"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "maps", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "overlays", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "publications", force: :cascade do |t|
     t.text "name"
     t.integer "publishing_year"
@@ -79,6 +104,20 @@ ActiveRecord::Schema.define(version: 20180323193549) do
     t.text "slug"
   end
 
+  create_table "rules", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scenario_counters", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.integer "force_id"
+    t.integer "counter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scenario_forces", force: :cascade do |t|
     t.integer "scenario_id"
     t.integer "force_id"
@@ -87,10 +126,31 @@ ActiveRecord::Schema.define(version: 20180323193549) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scenario_maps", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.integer "map_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scenario_overlays", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.integer "overlay_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scenario_publications", force: :cascade do |t|
     t.integer "scenario_id"
     t.integer "publication_id"
     t.text "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scenario_rules", force: :cascade do |t|
+    t.integer "scenario_id"
+    t.integer "rule_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

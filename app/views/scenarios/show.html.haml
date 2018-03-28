@@ -1,43 +1,75 @@
 .card
-  .card-header= @scenario.name
+  .card-header
+    .row
+      .col
+        %h5= @scenario.name
+      .col
+        %h6.float-right= @scenario.belligerents
   .card-body
     .row
-      .col
-        %h6 Belligerents
-      .col= @scenario.belligerents
-    .row
-      .col
-        %h6 Counters
-      .col
-        %p WIP counters
-        %p WIP counters
-        %p WIP counters
-    .row
-      .col
-        %h6 Date
-      .col
-        %h6 Location
-      .col
-        %h6 Initiative
-      .col
-        %h6 Game Turns
-    .row
-      .col= @scenario.scenario_date
-      .col= @scenario.location_id
-      .col= @scenario.initiative
-      .col= @scenario.gameturns
-    .row
-      .col
-        %h4 Publications
-    - @scenario.publications.each do |publication|
-      .row  
-        .col 
-          %strong #{publication.publishing_year} 
-        .col by #{link_to publication.publisher.name, publication.publisher }
-        .col in #{link_to publication.name, publication}
-    .row
-      .col
-        %h4 ASL Rules Employed
-    .row
-      .col
-        %p WIP
+      .col-md-6.col-lg-4.col-xl-3
+        .card.mb-3
+          .card-header Scenario Information
+          .card-body
+            .row
+              .col Date
+              .col
+                .float-right= @scenario.scenario_date
+            .row
+              .col Location
+              .col
+                .float-right= @scenario.location.name.capitalize
+            .row
+              .col Initiative
+              .col
+                .float-right= @scenario.initiative.capitalize
+            .row
+              .col Gameturns
+              .col
+                .float-right= @scenario.gameturns          
+            .row
+              .col Maps
+              .col
+                .float-right= map_list(@scenario.maps)
+            .row
+              .col Overlays
+              .col
+                .float-right= overlay_list(@scenario.overlays)
+      .col-md-6.col-lg-4.col-xl-3
+        .card.mb-3
+          .card-header Counters
+          .card-body
+            - @scenario.scenario_counters.order(force_id: :asc).each do |scenario_counter|
+              .row
+                .col= scenario_counter.counter.to_s
+      .col-md-6.col-lg-4.col-xl-3 
+        .card.mb-3
+          .card-header Publications
+          .card-body
+            - @scenario.scenario_publications.each do |scenario_publication|
+              .row.ml-1= publication_line(scenario_publication)
+      .col-md-6.col-lg-4.col-xl-3
+        .card.mb-3
+          .card-header ASL Rules Employed
+          .card-body
+            - @scenario.rules.each do |rule|
+              .row.ml-1= rule.name
+      .col-md-6.col-lg-4.col-xl-3
+        .card.mb-3
+          .card-header Gaming results on this scenario
+          .card-body
+            - @scenario.games.each do |game|
+              .row
+                .col= link_to game.id, game
+      .col-md-6.col-lg-4.col-xl-3
+        .card.mb-3
+          .card-header Rating
+          .card-body
+            .row
+              .col WIP 
+      .col-md-6.col-lg-4.col-xl-3
+        .card.mb-3
+          .card-header Balance Analysis 
+          .card-body
+            .row
+              .col WIP
