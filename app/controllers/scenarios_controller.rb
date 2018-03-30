@@ -1,7 +1,7 @@
 # Scenario controller
 class ScenariosController < ApplicationController
-  before_action :set_scenario, only: %i[show edit update destroy]
-  access all: %i[index show new edit create update destroy], user: :all
+  before_action :set_scenario, only: %i[show edit update destroy comments]
+  access all: %i[index show new edit create update destroy comments], user: :all
 
   # GET /scenarios
   def index
@@ -50,11 +50,13 @@ class ScenariosController < ApplicationController
     redirect_to scenarios_url, notice: 'Scenario was successfully destroyed.'
   end
 
+  #  def comments; end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_scenario
-    @scenario = Scenario.friendly.find(params[:slug])
+    @scenario = Scenario.friendly.find(params[:slug] ||= params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

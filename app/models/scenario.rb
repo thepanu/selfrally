@@ -24,6 +24,7 @@ class Scenario < ApplicationRecord
   has_many :maps, through: :scenario_maps
   has_many :scenario_overlays
   has_many :overlays, through: :scenario_overlays
+  has_many :comments, -> { order(updated_at: :asc) }, as: :commentable
 
   scope :search_query, lambda { |query|
     where('name ILIKE ?', "%#{sanitize_sql_like(query)}%")

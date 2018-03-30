@@ -1,16 +1,18 @@
 .card
   .card-header
-    .row
-      .col
-        %h5= @scenario.name
-      .col
-        %h6.float-right= @scenario.belligerents
+    %ul.nav.nav-tabs.card-header-tabs
+      %li.nav-item= link_to "Info", "#", class: "nav-link active"
+      %li.nav-item= link_to "Comments", scenario_comments_path(@scenario), class: "nav-link"
+      %li.nav-item= link_to "Change history", "#", class: "nav-link disabled"
   .card-body
+    %h5.card-title= @scenario.name
     .row
       .col-md-6.col-lg-4.col-xl-3
         .card.mb-3
-          .card-header Scenario Information
+          .card-header Information
           .card-body
+            .row
+              .col= @scenario.belligerents
             .row
               .col Date
               .col

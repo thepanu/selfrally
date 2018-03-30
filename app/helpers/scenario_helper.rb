@@ -2,7 +2,7 @@
 module ScenarioHelper
   # TODO: Tarvii korjata turvalliseksi
   def publication_line(scenario_publication)
-    publication = scenario_publications.publication
+    publication = scenario_publication.publication
     publisher = publication.publisher
     format('<div><strong>%<year>s</strong> by %<publisher>s in %<publication>s %<code>s</div>',
            year: publication.publishing_year,
@@ -16,7 +16,7 @@ module ScenarioHelper
   end
 
   def publication_link(publication)
-    link_to(publication.name, publisher)
+    link_to(publication.name, publication)
   end
 
   def force_counter(force, scenario)

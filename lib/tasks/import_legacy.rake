@@ -222,6 +222,28 @@ namespace(:db) do
       end
       reset_pk_sequence
     end
+
+    desc 'import comments'
+    task comments: :environment do
+      legacy_database.query("SELECT * FROM message WHERE scheme = 'scenario'").each do |msg|
+        scenario = legacy_database.query("SELECT * from scenario_message WHERE message = #{msg['id']}")
+        scenario = scenario.first['scenario']
+        subject = legacy_database.query("SELECT * from message_content WHERE message = #{msg['id']} AND element = 'subject' LIMIT 1").first['content']
+        body = legacy_database.query("SELECT * from message_content WHERE message = #{msg['id']} AND element = 'body' LIMIT 1").first['content']
+        Comment.find_or_create_by!(
+          id: msg['id'],
+          user_id: msg['owner'],
+          parent_id: msg['parent'],
+          commentable_id: scenario,
+          commentable_type: "Scenario",
+          body: body,
+          subject: subject,
+          created_at: msg['created'],
+          updated_at: msg['updated'].nil? ? msg['created'] : msg['updated']
+        ) 
+      end
+      reset_pk_sequence
+    end
   end
 end
 
