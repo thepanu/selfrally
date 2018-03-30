@@ -1,0 +1,10 @@
+- commentable.comments.each do |comment|
+  .row
+    .card.mb-3.w-100
+      .card-header
+        .row
+          .col= comment.subject
+          %span.float-right= comment.updated_at
+      .card-body
+        %p.card-text= comment.body
+      .card-footer #{comment.user.full_name} 
