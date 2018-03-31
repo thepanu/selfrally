@@ -10,11 +10,21 @@ class Scenario < ApplicationRecord
       search_query
     ]
   )
+  belongs_to :location
   has_many :scenario_publications
   has_many :publications, through: :scenario_publications
   has_many :games
   has_many :scenario_forces
   has_many :forces, through: :scenario_forces
+  has_many :scenario_counters
+  has_many :counters, through: :scenario_counters
+  has_many :scenario_rules
+  has_many :rules, through: :scenario_rules
+  has_many :scenario_maps
+  has_many :maps, through: :scenario_maps
+  has_many :scenario_overlays
+  has_many :overlays, through: :scenario_overlays
+  has_many :comments, -> { order(updated_at: :asc) }, as: :commentable
 
   scope :search_query, lambda { |query|
     where('name ILIKE ?', "%#{sanitize_sql_like(query)}%")

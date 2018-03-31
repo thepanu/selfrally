@@ -1,0 +1,8 @@
+%div
+  %p alku
+  - form_for [commentable, Comment.new] do |f|
+    .form-group
+      .row= f.text_area :body, class: "form-control", placeholder: "Add a comment"
+      .row= f.submit class: "btn btn-primary"
+  %p loppu
+  
