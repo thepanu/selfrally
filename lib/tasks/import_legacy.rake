@@ -106,6 +106,7 @@ namespace(:db) do
           rating_delta: score['score'] ||= 0,
           new_rating: score['post_score'] ||= 1500)
       end
+      reset_pk_sequence
     end
     desc 'update expected score for imported game_players'
     task update_expected: :environment do
@@ -123,6 +124,125 @@ namespace(:db) do
                                          initiative: side['initiative'])
         # puts "sc: #{side['scenario']} side: #{side['side']}" if Force.where(name: side['side']).first.nil?
       end
+    end
+
+    desc 'import counters'
+    task counters: :environment do
+      legacy_database.query('SELECT * FROM counters').each do |counter|
+        Counter.create!(
+          id: counter['id'],
+          name: counter['name'],
+          counter_type: counter['type']
+        )
+      end
+      reset_pk_sequence
+    end
+  
+    desc 'import scenario_counters'
+    task scenario_counters: :environment do
+      legacy_database.query('SELECT * FROM scenario_counters').each do |sc|
+        ScenarioCounter.create!(
+          scenario_id: sc['scenario'],
+          force_id: Force.find_by(name: sc['side']).id,
+          counter_id: sc['counters']
+        )
+      end
+    end  
+
+    desc 'import rules'
+    task rules: :environment do
+      legacy_database.query('SELECT * FROM feature').each do |feature|
+        Rule.create!(
+          id: feature['id'],
+          name: feature['rule']
+        )
+      end
+      reset_pk_sequence
+    end
+  
+    desc 'import scenario_rules'
+    task scenario_rules: :environment do
+      legacy_database.query('SELECT * FROM scenario_feature').each do |i|
+        ScenarioRule.create!(
+          scenario_id: i['scenario'],
+          rule_id: i['feature']
+        )
+      end
+    end
+
+    desc 'import maps'
+    task maps: :environment do
+      legacy_database.query('SELECT * FROM map').each do |i|
+        Map.create!(
+          id: i['id'],
+          name: i['mapname']
+        )
+      end
+      reset_pk_sequence
+    end
+  
+    desc 'import scenario_maps'
+    task scenario_maps: :environment do
+      legacy_database.query('SELECT * FROM scenario_map').each do |i|
+        ScenarioMap.create!(
+          scenario_id: i['scenario'],
+          map_id: i['map']
+        )
+      end
+    end   
+
+    desc 'import overlays'
+    task overlays: :environment do
+      legacy_database.query('SELECT * FROM overlays').each do |i|
+        Overlay.create!(
+          id: i['id'],
+          name: i['code']
+        )
+      end
+      reset_pk_sequence
+    end
+  
+    desc 'import scenario_overlays'
+    task scenario_overlays: :environment do
+      legacy_database.query('SELECT * FROM scenario_overlays').each do |i|
+        ScenarioOverlay.create!(
+          scenario_id: i['scenario'],
+          overlay_id: i['overlay']
+        )
+      end
+    end   
+
+    desc 'import locations'
+    task locations: :environment do
+      legacy_database.query('SELECT * FROM location').each do |i|
+        Location.create!(
+          id: i['id'],
+          name: i['place']
+        )
+      end
+      reset_pk_sequence
+    end
+
+    desc 'import comments'
+    task comments: :environment do
+      legacy_database.query("SELECT * FROM message WHERE scheme = 'scenario'").each do |msg|
+        scenario = legacy_database.query("SELECT * from scenario_message WHERE message = #{msg['id']}")
+        scenario = scenario.first['scenario']
+        subject = legacy_database.query("SELECT * from message_content WHERE message = #{msg['id']} AND element = 'subject' LIMIT 1").first['content']
+        body = legacy_database.query("SELECT * from message_content WHERE message = #{msg['id']} AND element = 'body' LIMIT 1").first['content']
+        Comment.find_or_create_by!(
+          id: msg['id'],
+          user_id: msg['owner'],
+          parent_id: msg['parent'],
+          commentable_id: scenario,
+          commentable_type: "Scenario",
+          body: body,
+          subject: subject,
+          created_at: msg['created'],
+          updated_at: msg['updated'].nil? ? msg['created'] : msg['updated']
+        ) 
+      end
+      reset_pk_sequence
     end
   end
 end
