@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'games/prepare_players', to: 'games#prepare_players'
+
+  #get 'games/prepare_players', to: 'games#prepare_players'
   resources :games
   resources :scenarios do
 #    resources :comments, module: :scenarios
@@ -16,6 +17,8 @@ Rails.application.routes.draw do
   get 'admin/users'
   # get 'admin/edit_user'
   # resources :admin
+
+  mount Thredded::Engine => '/forum'
 
   devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register', edit: 'edit' }
 

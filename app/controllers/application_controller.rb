@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
 
   include CurrentUserConcern
 
+  def check_for_guest_user
+    return unless current_user.has_roles?(:guest)
+    flash.alert = 'You must be logged in to access forums!'
+    redirect_to main_app.new_user_session_path
+  end
+
   protected
 
   def configure_permitted_parameters

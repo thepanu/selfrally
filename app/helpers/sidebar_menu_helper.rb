@@ -9,19 +9,19 @@ module SidebarMenuHelper
       #   title: "Player ratings"
       # },
       {
-        url: games_path,
+        url: main_app.games_path,
         title: 'Gaming results'
       },
       {
-        url: publishers_path,
+        url: main_app.publishers_path,
         title: 'Scenario publishers'
       },
       {
-        url: publications_path,
+        url: main_app.publications_path,
         title: 'Scenario publications'
       },
       {
-        url: scenarios_path,
+        url: main_app.scenarios_path,
         title: 'Scenario index'
       }
     ]

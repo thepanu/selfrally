@@ -5,7 +5,7 @@ module AdminMenuHelper
   def admin_items
     [
       {
-        url: admin_users_path,
+        url: main_app.admin_users_path,
         title: 'Manage users'
       }
     ]

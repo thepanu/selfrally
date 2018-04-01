@@ -13,8 +13,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  validates :first_name, :last_name, :email, :password, presence: true
-  validates :email, uniqueness: true
+  validates :first_name, :last_name, :email, :password, :nick, presence: true
+  validates :email, :nick, uniqueness: true
+
   def full_name
     format(
       '%<firstname>s %<lastname>s',
