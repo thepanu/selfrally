@@ -244,6 +244,60 @@ namespace(:db) do
       end
       reset_pk_sequence
     end
+
+    desc 'import forum messages'
+    task forum_messages: :environment do
+      legacy_database.query("SELECT * FROM message WHERE scheme IS NULL AND parent IS NULL").each do |msg|
+        begin
+        title = legacy_database.query(
+          "SELECT * from message_content WHERE message = #{msg['id']} AND element = 'subject'"
+        ).first['content']
+        topic = Thredded::Topic.create!(
+          id: msg['id'],
+          user_id: msg['owner'],
+          title: title,
+          messageboard_id: 1,
+          created_at: msg['created'],
+          updated_at: msg['updated'] ||= msg['created']
+        )
+        body = legacy_database.query(
+          "SELECT * from message_content WHERE message = #{msg['id']} AND element = 'body'"
+        ).first['content']
+        topic.posts.create!(
+          id: msg['id'],
+          user_id: msg['owner'],
+          content: body.blank? ? "Tyhjä tekstikenttä. Laitettu tämä teksti migraatiossa." : body,
+          messageboard_id: 1,
+          moderation_state: 1,
+          created_at: msg['created'],
+          updated_at: msg['updated'] ||= msg['created']
+        )
+        legacy_database.query(
+          "SELECT * FROM message WHERE scheme IS NULL AND parent = #{msg['id']}"
+        ).each do |reply|
+          content = legacy_database.query(
+            "SELECT * from message_content WHERE message = #{reply['id']} AND element = 'subject'"
+          ).first['content']
+          content << "\n"
+          content << legacy_database.query(
+            "SELECT * from message_content WHERE message = #{reply['id']} AND element = 'body'"
+          ).first['content']
+          topic.posts.create(
+            id: reply['id'],
+            user_id: reply['owner'],
+            content: content.blank? ? "Tyhjä tekstikenttä. Laitettu tämä teksti migraatiossa." : content,
+            messageboard_id: 1,
+            moderation_state: 1,
+            created_at: reply['created'],
+            updated_at: reply['updated'] ||= reply['created']          
+          )
+        end
+        rescue
+          byebug
+        end
+      end
+      reset_pk_sequence
+    end
   end
 end
 

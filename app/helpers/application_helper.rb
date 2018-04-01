@@ -31,38 +31,37 @@ module ApplicationHelper
   def login_helper(tag_info)
     html = ''
     if !current_user.is_a?(GuestUser)
-      html << menu_link_builder(tag_info, { url: destroy_user_session_path, title: 'Logout' },
-                                method: 'delete', rel: 'nofollow').html_safe
+      html << logout_link(tag_info)
     else
-      html << menu_link_builder(tag_info, { url: new_user_session_path, title: 'Login' }, method: nil, rel: nil)
-      html << menu_link_builder(tag_info, { url: new_user_registration_path, title: 'Register' }, method: nil, rel: nil)
+      html << login_link(tag_info)
+      html << register_link(tag_info)
     end
     html.html_safe
   end
 
-  def header_items # rubocop:disable Metrics/MethodLength
-    [
-      {
-        url: new_game_path,
-        title: 'Add a game report',
-        role: :user
-      },
-      {
-        url: edit_user_registration_path,
-        title: 'Profile',
-        role: :user
-      }
-    ]
+  def logout_link(tag_info)
+    menu_link_builder(
+      tag_info,
+      { url: main_app.destroy_user_session_path, title: 'Logout' },
+      method: 'delete',
+      rel: 'nofollow'
+    ).html_safe
   end
 
-  def header_helper(tag_info)
-    html = ''
-    header_items.each do |item|
-      if logged_in?(item[:role])
-        html << menu_link_builder(tag_info, { url: item[:url], title: item[:title] }, method: nil, rel: nil)
-      end
-    end
-    html.html_safe
+  def login_link(tag_info)
+    menu_link_builder(
+      tag_info,
+      { url: main_app.new_user_session_path, title: 'Login' },
+      method: nil,
+      rel: nil
+    )
+  end
+
+  def register_link(tag_info)
+    menu_link_builder(tag_info,
+                      { url: main_app.new_user_registration_path, title: 'Register' },
+                      method: nil,
+                      rel: nil)
   end
 
   def menu_link_builder(tag_info, url_options, options)
