@@ -39,7 +39,7 @@ class User < ApplicationRecord
 
   def promote_on_date?(date)
     Rank.where(
-      'ranks.limit <= ?', games.where('date < ?', date).count + 1
+      'ranks.limit <= ?', games.where('date <= ?', date).count
     ).order(limit: :desc).first != current_rank
   end
 

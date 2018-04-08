@@ -38,16 +38,26 @@ namespace(:db) do
       end
     end
 
+    desc 'fix img urls'
+    task fix_rank_imgs: :environment do 
+      legacy_database.query('SELECT * FROM rank').each do |rank|
+        Rank.find_by(name: rank['display']).update_attributes(
+          img: "ranks/#{rank['img']}.gif"
+        )
+      end
+    end
+
     desc 'create promotions for users'
     task promotions: :environment do
+      firstrank = Rank.find_by(name: "alokas")
       User.all.each do |user|
         if user.user_ranks.empty?
-          rank = Rank.first
-          user.user_ranks.create(rank_id: rank.id, promotion_date: user.created_at)
+          start_date = user.games.empty? ?  user.created_at : user.games.order(date: :asc).first.date
+          user.user_ranks.create(rank_id: firstrank.id, promotion_date: start_date)
         end
         GamePlayer.includes(:game).where(user_id: user.id).order("games.date asc").each do |play|
           begin
-          if user.promote_on_date?(play.game.date) 
+          if user.promote_on_date?(play.game.date)
             user.user_ranks.create(rank_id: user.next_rank.id, promotion_date: play.game.date)
           end
           rescue
@@ -125,6 +135,17 @@ namespace(:db) do
       end
       reset_pk_sequence
     end
+
+    desc 'import dates and times'
+    task game_date_times: :environment do
+      legacy_database.query('SELECT * FROM game').each do |game|
+        Game.find(game['id']).update_attributes(
+          date: game['created'],
+          created_at: game['created']
+        )
+      end
+    end
+
     desc 'import game players'
     task game_players: :environment do
       legacy_database.query('SELECT * FROM game_player').each do |gp|

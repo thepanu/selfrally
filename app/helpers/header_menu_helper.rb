@@ -10,7 +10,7 @@ module HeaderMenuHelper
         role: :user
       },
       {
-        url: main_app.edit_user_registration_path,
+        url: main_app.user_path(current_user),
         title: 'Profile',
         role: :user
       },
