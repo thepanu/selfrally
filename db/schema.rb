@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180401192746) do
+ActiveRecord::Schema.define(version: 20180407111121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,14 @@ ActiveRecord::Schema.define(version: 20180401192746) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "slug"
+  end
+
+  create_table "ranks", force: :cascade do |t|
+    t.integer "limit"
+    t.string "name"
+    t.string "img"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rules", force: :cascade do |t|
@@ -399,6 +407,14 @@ ActiveRecord::Schema.define(version: 20180401192746) do
     t.integer "page", default: 1, null: false
     t.datetime "read_at", null: false
     t.index ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true
+  end
+
+  create_table "user_ranks", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "rank_id"
+    t.date "promotion_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

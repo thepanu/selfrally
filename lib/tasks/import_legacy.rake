@@ -16,6 +16,47 @@ namespace(:db) do
       end
       reset_pk_sequence
     end
+
+    desc 'update register date for users'
+    task update_register_date: :environment do
+      legacy_database.query('SELECT * FROM player').each do |player|
+        User.find(player['id']).update_attributes(
+          created_at: player['created']
+        )
+      end
+    end
+
+    desc 'import ranks'
+    task import_ranks: :environment do
+      legacy_database.query('SELECT * FROM rank').each do |rank|
+        Rank.create!(
+          id: rank['id'],
+          limit: rank['start'],
+          img: "/public/ranks/#{rank['img']}.gif",
+          name: rank['display']
+        )
+      end
+    end
+
+    desc 'create promotions for users'
+    task promotions: :environment do
+      User.all.each do |user|
+        if user.user_ranks.empty?
+          rank = Rank.first
+          user.user_ranks.create(rank_id: rank.id, promotion_date: user.created_at)
+        end
+        GamePlayer.includes(:game).where(user_id: user.id).order("games.date asc").each do |play|
+          begin
+          if user.promote_on_date?(play.game.date) 
+            user.user_ranks.create(rank_id: user.next_rank.id, promotion_date: play.game.date)
+          end
+          rescue
+            byebug
+          end
+        end
+      end
+    end
+
     desc 'capitalize names'
     task user_names: :environment do
       users = User.all

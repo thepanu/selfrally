@@ -1,5 +1,10 @@
 # User model
 class User < ApplicationRecord
+  has_many :game_players
+  has_many :games, through: :game_players
+  has_many :user_ranks
+  has_many :ranks, through: :user_ranks
+
   ############################################################################################
   ## PeterGate Roles                                                                        ##
   ## The :user role is added by default and shouldn't be included in this list.             ##
@@ -13,7 +18,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  validates :first_name, :last_name, :email, :password, :nick, presence: true
+  validates :first_name, :last_name, :email, :nick, presence: true
   validates :email, :nick, uniqueness: true
 
   def full_name
@@ -22,6 +27,24 @@ class User < ApplicationRecord
       firstname: first_name,
       lastname: last_name || ''
     )
+  end
+
+  def current_rank
+    user_ranks.order(promotion_date: :desc).first.rank
+  end
+
+  def promote?
+    Rank.where('ranks.limit <= ?', games.count).order(limit: :desc).first != current_rank
+  end
+
+  def promote_on_date?(date)
+    Rank.where(
+      'ranks.limit <= ?', games.where('date < ?', date).count + 1
+    ).order(limit: :desc).first != current_rank
+  end
+
+  def next_rank
+    Rank.where('ranks.limit > ?', current_rank.limit).order(limit: :asc).first
   end
 
   def elo
@@ -47,7 +70,7 @@ class User < ApplicationRecord
   # :reek:FeatureEnvy
   def fetch_previous_rating(date)
     prev_plays = previous_plays(date)
-    return nil if prev_plays.empty?
+    return DEFAULT_RATING if prev_plays.empty?
     prev_plays.first.new_rating
   end
 

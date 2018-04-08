@@ -13,7 +13,6 @@ class GamePlayer < ApplicationRecord
 
   def init
     self.result ||= 0
-    #    self.previous_rating ||= fetch_previous_rating if user_id.present?
   end
 
   def update_ratings_pre(opponents_rating)
@@ -25,7 +24,7 @@ class GamePlayer < ApplicationRecord
 
   def update_ratings_post(opponents_rating)
     if game.provisional
-      update_attributes(ratings_delta: 0, new_rating: DEFAULT_RATING)
+      update_attributes(rating_delta: 0, new_rating: previous_rating || DEFAULT_RATING)
     else
       update_ratings_with_score(opponents_rating)
     end

@@ -2,7 +2,7 @@
 class EloRating
   attr_reader :current_rating
 
-  def initialize(current_rating = DEFAULT_RATING)
+  def initialize(current_rating)
     @current_rating = current_rating
   end
 
