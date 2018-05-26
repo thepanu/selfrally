@@ -1,4 +1,5 @@
 # User model
+# :reek:TooManyMethods
 class User < ApplicationRecord
   has_many :game_players
   has_many :games, through: :game_players
@@ -33,14 +34,23 @@ class User < ApplicationRecord
     user_ranks.order(promotion_date: :desc).first.rank
   end
 
+  def rank_on_date(date)
+    user_ranks.where('promotion_date <= ?', date).order(promotion_date: :desc).first.rank
+  end
+
   def promote?
     Rank.where('ranks.limit <= ?', games.count).order(limit: :desc).first != current_rank
   end
 
   def promote_on_date?(date)
     Rank.where(
-      'ranks.limit <= ?', games.where('date <= ?', date).count
+      'ranks.limit <= ?', games.where('date <= ? AND status = ?', date, 1).count
     ).order(limit: :desc).first != current_rank
+  end
+
+  def check_for_promotion(date)
+    return nil unless promote_on_date?(date)
+    user_ranks.create(rank_id: next_rank.id, promotion_date: date)
   end
 
   def next_rank
@@ -53,6 +63,10 @@ class User < ApplicationRecord
 
   def current_rating
     elo.current_rating
+  end
+
+  def rating_on_date(date)
+    EloRating.new(fetch_previous_rating(date)).current_rating
   end
 
   def delta(score, opponents_rating)
