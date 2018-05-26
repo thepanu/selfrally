@@ -29,7 +29,7 @@ class Game < ApplicationRecord
   def update_ratings
     update_attributes(provisional: provisional?)
     game_players.each do |play|
-      opponents_rating = opponent_for(play).current_rating
+      opponents_rating = opponent_for(play).rating_on_date(date)
       play.update_ratings_pre(opponents_rating)
       play.update_ratings_post(opponents_rating) if status == 'finished'
     end

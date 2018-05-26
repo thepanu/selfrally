@@ -5,7 +5,7 @@
     <img class="rounded mx-auto d-block" src="http://via.placeholder.com/120x120">
   </div>
   <div class="card-body text-center<%= player.winner ? ' bg-success' : '' %>">
-    <h5 class="card-title"><%= player.user.full_name %></h5>
+    <h5 class="card-title"><%= player.user.rank_on_date(@game.date).name.capitalize %> <%= link_to player.user.full_name, user_path(player.user.id) %></h5>
     <p class="card-text"><%= player.force.name %></p>
   </div>
 

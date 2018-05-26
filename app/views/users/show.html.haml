@@ -1,0 +1,9 @@
+%h1= @user.full_name
+.card
+  .card-body
+    .row
+      .col= image_tag(asset_path(@user.current_rank.img))
+    -@user.user_ranks.order(promotion_date: :desc).each do |user_rank|
+      .row
+        .col #{user_rank.rank.name.capitalize} (#{user_rank.promotion_date})
+

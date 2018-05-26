@@ -1,5 +1,11 @@
 # User model
+# :reek:TooManyMethods
 class User < ApplicationRecord
+  has_many :game_players
+  has_many :games, through: :game_players
+  has_many :user_ranks
+  has_many :ranks, through: :user_ranks
+
   ############################################################################################
   ## PeterGate Roles                                                                        ##
   ## The :user role is added by default and shouldn't be included in this list.             ##
@@ -13,7 +19,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  validates :first_name, :last_name, :email, :password, :nick, presence: true
+  validates :first_name, :last_name, :email, :nick, presence: true
   validates :email, :nick, uniqueness: true
 
   def full_name
@@ -24,12 +30,43 @@ class User < ApplicationRecord
     )
   end
 
+  def current_rank
+    user_ranks.order(promotion_date: :desc).first.rank
+  end
+
+  def rank_on_date(date)
+    user_ranks.where('promotion_date <= ?', date).order(promotion_date: :desc).first.rank
+  end
+
+  def promote?
+    Rank.where('ranks.limit <= ?', games.count).order(limit: :desc).first != current_rank
+  end
+
+  def promote_on_date?(date)
+    Rank.where(
+      'ranks.limit <= ?', games.where('date <= ? AND status = ?', date, 1).count
+    ).order(limit: :desc).first != current_rank
+  end
+
+  def check_for_promotion(date)
+    return nil unless promote_on_date?(date)
+    user_ranks.create(rank_id: next_rank.id, promotion_date: date)
+  end
+
+  def next_rank
+    Rank.where('ranks.limit > ?', current_rank.limit).order(limit: :asc).first
+  end
+
   def elo
     EloRating.new(fetch_previous_rating(Date.today))
   end
 
   def current_rating
     elo.current_rating
+  end
+
+  def rating_on_date(date)
+    EloRating.new(fetch_previous_rating(date)).current_rating
   end
 
   def delta(score, opponents_rating)
@@ -47,7 +84,7 @@ class User < ApplicationRecord
   # :reek:FeatureEnvy
   def fetch_previous_rating(date)
     prev_plays = previous_plays(date)
-    return nil if prev_plays.empty?
+    return DEFAULT_RATING if prev_plays.empty?
     prev_plays.first.new_rating
   end
 

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   #get 'games/prepare_players', to: 'games#prepare_players'
   resources :games
+  resources :users
   resources :scenarios do
 #    resources :comments, module: :scenarios
   end
