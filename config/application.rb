@@ -17,6 +17,10 @@ require 'sprockets/railtie'
 Bundler.require(*Rails.groups)
 
 module SelfRally
+  Raven.configure do |config|
+    config.dsn = 'https://680cad95fa49421ca9a1fd23188943c1:58ae2399b0444c41b744547ddda38e9a@sentry.io/1214319'
+  end
+  
   # Application comment here #TODO
   class Application < Rails::Application
     config.time_zone = 'Europe/Helsinki'
