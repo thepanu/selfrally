@@ -1,8 +1,9 @@
 FactoryGirl.define do
-  factory :comment do
-    body "MyText"
-    user_id 1
-    scenario_id 1
-    parent_id 1
+  factory :comment do |comment|
+    comment.body "MyText"
+    comment.association :user
+#    association :scenario
+    comment.commentable { |a| a.association(:scenario) }
+#    association :parent
   end
 end

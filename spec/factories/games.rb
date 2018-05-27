@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :game do
-    date Date.today
+    date Time.now
     turnsplayed 5
     gamingtime 5
     status 0

@@ -6,10 +6,11 @@ RSpec.describe User, type: :model do
     expect(FactoryGirl.build(:user)).to be_valid
   end
 
-  it "is valid with a first name, last name, email, and password" do
+  it "is valid with a first name, last name, nick, email, and password" do
     user = User.new(
       first_name: "Antti",
       last_name: "Aslaaja",
+      nick: "anttiaslaaja",
       email: "testi@self-rally.org",
       password: "testi-passu"
     )
