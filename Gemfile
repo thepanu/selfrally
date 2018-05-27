@@ -79,4 +79,5 @@ gem 'petergate', '~> 1.8'
 gem 'select2-rails'
 gem 'sendgrid-ruby'
 gem 'sentry-raven'
+gem 'simplecov', require: false, group: :test
 gem 'thredded', '~> 0.14.3'

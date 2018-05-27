@@ -3,7 +3,7 @@ FactoryGirl.define do
     name "Raatteen tie"
     scenario_date "1940-1-1"
     gameturns 4
-    location_id 1
+    association :location
 #    association :publication
 #    association :publisher
   end

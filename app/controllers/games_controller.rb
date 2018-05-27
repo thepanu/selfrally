@@ -1,6 +1,5 @@
 # Games controller
 class GamesController < ApplicationController
-  require 'game_rating'
   before_action :set_game, only: %i[show edit update destroy prepare_players]
   after_action :assign_badges, only: %i[update]
   access all: %i[show index], user: { except: [:destroy] }, admin: :all
