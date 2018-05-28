@@ -60,4 +60,10 @@ RSpec.describe User, type: :model do
     user = FactoryGirl.build(:user, first_name: "John", last_name: "Doe")
     expect(user.full_name).to eq "John Doe"
   end
+
+  it "returns and creates first rank if user has no games (new user)" do
+    FactoryGirl.create(:rank)
+    user = FactoryGirl.create(:user)
+    expect(user.current_rank[:name]).to include("Sotilasarvo 1")
+  end
 end
