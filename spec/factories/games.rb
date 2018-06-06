@@ -1,9 +1,10 @@
 FactoryGirl.define do
   factory :game do
-    date Time.now
+    sequence(:date) { |n| Time.now + n.hours }
     turnsplayed 5
     gamingtime 5
     status 0
     association :scenario
+   # association :game_players
   end
 end

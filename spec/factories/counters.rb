@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :counter do
-    name "MyString"
-    type ""
+    name "Counter"
+    counter_type "Type"
   end
 end

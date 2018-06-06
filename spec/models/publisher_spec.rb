@@ -1,15 +1,10 @@
 require 'rails_helper'
 RSpec.describe Publisher, type: :model do
   before do
-    @publisher = Publisher.create(
-      name: "Julkaisija"
-    )
-    @publisher2 = Publisher.create(
-      name: "Toinen Julkaisija"
-    ) 
-    @publisher3 = Publisher.create(
-      name: "Vaihtoehto"
-    )
+
+    @publisher = FactoryGirl.create(:publisher, name: "Julkaisija")
+    @publisher2 = FactoryGirl.create(:publisher, name: "Toinen Julkaisija")
+    @publisher3 = FactoryGirl.create(:publisher, name: "Vaihtoehto")
   end
   describe "search publisher name for a term" do
     context "when match is found"
