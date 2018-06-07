@@ -1,7 +1,11 @@
 FactoryGirl.define do
   factory :publication do
-    name "Testi Julkaisu"
+    sequence(:name) { |n| "Testi Julkaisu#{n}" }
     publishing_year 2017
     association :publisher
+
+    factory :publication_alternate_name do
+      name "Vaihtoehto"
+    end
   end
 end

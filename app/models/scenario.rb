@@ -35,7 +35,7 @@ class Scenario < ApplicationRecord
     when /^name_/
       order("name #{direction}")
     else
-      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
+      raise(ArgumentError, "Invalid sort option: #{sort_key.inspect}")
     end
   }
 
