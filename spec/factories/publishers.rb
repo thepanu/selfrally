@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :publisher do
-    name "Testi Julkaisija"
+    sequence(:name) { |n| "Testi Julkaisija#{n}" }
   end
 end

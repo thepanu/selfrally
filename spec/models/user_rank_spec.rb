@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UserRank, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "has valid factory" do
+    expect(FactoryGirl.build(:user_rank)).to be_valid
+  end
 end

@@ -1,17 +1,22 @@
 require 'rails_helper'
 RSpec.describe Publisher, type: :model do
   before do
-    @publisher = Publisher.create(
-      name: "Julkaisija"
-    )
-    @publisher2 = Publisher.create(
-      name: "Toinen Julkaisija"
-    ) 
-    @publisher3 = Publisher.create(
-      name: "Vaihtoehto"
-    )
+
+    @publisher = FactoryGirl.create(:publisher, name: "Julkaisija")
+    @publisher2 = FactoryGirl.create(:publisher, name: "Toinen Julkaisija")
+    @publisher3 = FactoryGirl.create(:publisher, name: "Vaihtoehto")
   end
   describe "search publisher name for a term" do
+    it "has sorting option for sorting asc/desc by name" do
+      expect(Publisher.options_for_sorted_by).to include(["name (a-z)", "name_asc"], ["name (z-a)", "name_desc"])
+    end
+
+    it "sorts correctly by name" do
+      expect(Publisher.sorted_by("name_asc")).to match_array([@publisher, @publisher2, @publisher3])
+      expect(Publisher.sorted_by("name_desc")).to match_array([@publisher3, @publisher2, @publisher])
+      expect { Publisher.sorted_by("something") }.to raise_error(ArgumentError)
+    end
+    
     context "when match is found"
     it "returns publishers that match the search term" do
       expect(Publisher.search_query("Julk")).to include(@publisher, @publisher2)

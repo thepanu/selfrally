@@ -17,7 +17,7 @@ class Game < ApplicationRecord
 
   def provisional?
     game_players.each do |play|
-      return true if play.user.previous_plays(date).size <= PROVISIONAL_LIMIT
+      return true if play.user.previous_plays(date).size < PROVISIONAL_LIMIT
     end
     false
   end

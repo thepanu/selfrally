@@ -4,7 +4,7 @@ FactoryGirl.define do
     scenario_date "1940-1-1"
     gameturns 4
     association :location
-#    association :publication
-#    association :publisher
+#    association :scenario_publications
+#    association :publishers
   end
 end

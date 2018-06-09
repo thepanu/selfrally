@@ -47,6 +47,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'brakeman', require: false
+  gem 'coderay'
   gem 'overcommit'
   gem 'parity', '~> 2.2', '>= 2.2.1'
   gem 'reek'

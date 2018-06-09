@@ -386,6 +386,7 @@ DEPENDENCIES
   bootstrap (~> 4.0.0.beta2)
   brakeman
   byebug
+  coderay
   coffee-rails (~> 4.2)
   devise (~> 4.3)
   factory_girl_rails (~> 4.8.0)
