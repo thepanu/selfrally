@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user_rank do
-    promotion_date Time.now
+    sequence(:promotion_date) { |n| Time.now + n.days }
     association :user
     association :rank
   end

@@ -45,7 +45,7 @@ class User < ApplicationRecord
   def promote_on_date?(date)
     Rank.where(
       'ranks.limit <= ?', games.where('date <= ? AND status = ?', date, 1).count
-    ).order(limit: :desc).first != current_rank
+    ).order(limit: :desc).first != rank_on_date(date)
   end
 
   def check_for_promotion(date)
@@ -86,16 +86,6 @@ class User < ApplicationRecord
     prev_plays = previous_plays(date)
     return DEFAULT_RATING if prev_plays.empty?
     prev_plays.first.new_rating
-  end
-
-  def for_rating(date, winner = 0)
-    # byebug
-    {
-      user_id: id,
-      previous_rating: fetch_previous_rating(date),
-      score: winner,
-      games: players_previous_plays(date).size
-    }
   end
 
   def previous_plays(date)

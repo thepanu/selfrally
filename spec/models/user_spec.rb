@@ -16,48 +16,92 @@ RSpec.describe User, type: :model do
     )
     expect(user).to be_valid
   end
+  
   it "is invalid without a first name" do
     user = FactoryGirl.build(:user, first_name: nil)
     user.valid?
     expect(user.errors[:first_name]).to include("can't be blank")
   end
+  
   it "is invalid without a last name" do
     user = FactoryGirl.build(:user, last_name: nil)
     user.valid?
     expect(user.errors[:last_name]).to include("can't be blank")
   end
+  
   it "is invalid without an email address" do 
     user = FactoryGirl.build(:user, email: nil)
     user.valid?
     expect(user.errors[:email]).to include("can't be blank")
 
   end
+  
   it "is invalid with a duplicate email address" do
-#    user = User.create(
-#      first_name: "Antti",
-#      last_name: "Aslaaja",
-#      email: "testi@self-rally.org",
-#      password: "testi-passu"
-#    )
-#    user = User.new(
-#      first_name: "Antti",
-#      last_name: "Aslaaja",
-#      email: "testi@self-rally.org",
-#      password: "testi-passu"
-#    )
     FactoryGirl.create(:user, email: "same@example.com")
     user = FactoryGirl.build(:user, email: "same@example.com")
     user.valid?
     expect(user.errors[:email]).to include("has already been taken")
   end
+
   it "returns a user's full name as a string" do
-#    user = User.new(
-#      first_name: "Antti",
-#      last_name: "Aslaaja",
-#      email: "testi@self-rally.org",
-#      password: "testi-passu"
-#    )
     user = FactoryGirl.build(:user, first_name: "John", last_name: "Doe")
     expect(user.full_name).to eq "John Doe"
+  end
+
+  context "rank related" do
+
+    before do
+      @time = Time.now
+      @user = FactoryGirl.create(:user)
+      @rank_0 = FactoryGirl.create(:rank, limit: 0)
+      @rank_a = FactoryGirl.create(:rank, limit: 1)
+      @rank_b = FactoryGirl.create(:rank, limit: 3)
+      @rank_c = FactoryGirl.create(:rank, limit: 99)
+      @user.user_ranks << FactoryGirl.create(:user_rank, rank_id: @rank_0.id, promotion_date: @time - 10.days)
+    end
+    it "outputs the current rank" do
+      @user.user_ranks << FactoryGirl.create(:user_rank, rank_id: @rank_a.id)
+      @user.user_ranks << FactoryGirl.create(:user_rank, rank_id: @rank_b.id)
+      expect(@user.current_rank).to eql(@rank_b)
+    end
+
+    it "outputs the rank user had on a given date" do
+      @user.user_ranks << FactoryGirl.create(:user_rank, rank_id: @rank_a.id, promotion_date: Time.now - 1.week)
+      @user.user_ranks << FactoryGirl.create(:user_rank, rank_id: @rank_b.id, promotion_date: Time.now)
+      expect(@user.rank_on_date(Time.now - 1.week)).to eql(@rank_a)
+    end
+
+    context "tells if user has reached a new rank" do
+      it "when over the limit for new rank" do
+        FactoryGirl.create(:game).game_players << FactoryGirl.create(:game_player, user_id: @user.id)
+        expect(@user.promote?).to eql(true)
+      end
+
+      it "when under the limit for new rank" do
+        @user.user_ranks << FactoryGirl.create(:user_rank, rank_id: @rank_a.id)
+        FactoryGirl.create(:game).game_players << FactoryGirl.create(:game_player, user_id: @user.id)
+        expect(@user.promote?).to eql(false)
+      end
+    end
+    
+    context "promotion checks" do
+
+      before do
+        3.times do |i|
+          @user.check_for_promotion(@time + i.days)
+          game = FactoryGirl.create(:game, status: 1, date: @time + i.days)
+          game.game_players << FactoryGirl.create(:game_player, user_id: @user.id)
+        end
+      end
+
+      it "tells if user was due for promotion on given date" do
+        expect(@user.promote_on_date?(@time + 2.days)).to eql(true)
+      end
+
+      it "tells if user was not due for promotion on given date" do
+        @user.check_for_promotion(@time + 10.days)
+        expect(@user.promote_on_date?(@time + 10.days)).to eql(false)
+      end 
+    end
   end
 end
