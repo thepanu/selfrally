@@ -31,7 +31,16 @@ class User < ApplicationRecord
   end
 
   def current_rank
+    return first_promotion if user_ranks.empty?
     user_ranks.order(promotion_date: :desc).first.rank
+  end
+
+  def first_promotion
+    user_ranks.create(
+      rank_id: Rank.all.order(limit: :asc).first.id,
+      promotion_date: Time.now
+    )
+    current_rank
   end
 
   def rank_on_date(date)
