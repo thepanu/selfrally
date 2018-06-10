@@ -12,7 +12,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-/coverage/*
+coverage/
 
 # Swap
 [._]*.s[a-v][a-z]
