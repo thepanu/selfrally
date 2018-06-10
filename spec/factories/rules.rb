@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :rule do
-    name "MyString"
+    sequence(:name) { |n| "Rule#{n}" } 
+#    association :ribbon
   end
 end

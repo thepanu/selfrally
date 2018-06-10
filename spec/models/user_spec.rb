@@ -104,4 +104,25 @@ RSpec.describe User, type: :model do
       end 
     end
   end
+
+  context "ribbons" do
+    before do
+      @user = FactoryGirl.create(:user)
+      @rule = FactoryGirl.create(:rule)
+      @ribbon_a = FactoryGirl.create(:ribbon)
+      @ribbon_a.rules << @rule
+    end
+
+    it "can assign points to ribbons based on rules used" do
+      @user.assign_points(@rule)
+      expect(@user.user_ribbons.first.points).to eql(1)
+    end 
+
+    it "will raise badge class when over treshold" do
+      40.times do
+        @user.assign_points(@rule)
+      end
+      expect(@user.user_ribbons.first.badgeclass).to eql("gold")
+    end
+  end
 end

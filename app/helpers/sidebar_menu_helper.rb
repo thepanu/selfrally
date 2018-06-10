@@ -23,6 +23,10 @@ module SidebarMenuHelper
       {
         url: main_app.scenarios_path,
         title: 'Scenario index'
+      },
+      {
+        url: main_app.ribbons_path,
+        title: 'Special Service Ribbons'
       }
     ]
   end

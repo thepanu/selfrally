@@ -6,6 +6,7 @@ class Game < ApplicationRecord
     locked: 2
   }
   has_many :game_players, dependent: :destroy, inverse_of: :game
+  has_many :users, through: :game_players
   belongs_to :scenario
 
   validates :scenario_id, :date, :status, presence: true

@@ -1,0 +1,39 @@
+%h1 Ribbons
+.card
+  .card-body
+    -@ribbons.each do |ribbon|
+      .card.mb-3
+        .card-header= ribbon.name
+        .card-body
+          .row.mb-3
+            .col-sm-auto.pr-3= image_tag(asset_path(ribbon.gold_url))
+            .col-sm-2.pr-3
+              %h5.card-title Gold
+            .col
+              .card-columns
+                -ribbon.assigned_ribbons("gold").each do |ur|
+                  .card.pl-2.pr-1.small.border-0 #{link_to ur.user.full_name, user_path(ur.user)}: #{ur.points} pts
+          .row.mb-3
+            .col-sm-auto.pr-3= image_tag(asset_path(ribbon.silver_url))
+            .col-sm-2.pr-3
+              %h5.card-title Silver
+            .col
+              .card-columns
+                -ribbon.assigned_ribbons("silver").each do |ur|
+                  .card.pl-2.pr-1.small.border-0 #{link_to ur.user.full_name, user_path(ur.user)}: #{ur.points} pts
+          .row.mb-3
+            .col-sm-auto.pr-3= image_tag(asset_path(ribbon.bronze_url))
+            .col-sm-2.pr-3
+              %h5.card-title Bronze
+            .col
+              .card-columns
+                -ribbon.assigned_ribbons("bronze").each do |ur|
+                  .card.pl-2.pr-1.small.border-0 #{link_to ur.user.full_name, user_path(ur.user)}: #{ur.points} pts
+          .row.mb-3
+            .col-sm-auto.pr-
+            .col-sm-2.pr-3
+              %h5.card-title Not yet Qualified 
+            .col
+              .card-columns
+                -ribbon.assigned_ribbons("nq").each do |ur|
+                  .card.pl-2.pr-1.small.border-0 #{link_to ur.user.full_name, user_path(ur.user)}: #{ur.points} pts

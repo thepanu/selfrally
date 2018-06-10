@@ -79,8 +79,12 @@ class GamesController < ApplicationController
 
   # :reek:FeatureEnvy
   def assign_badges
-    @game.game_players.each do |player|
-      player.user.check_for_promotion(@game.date)
+    return nil unless @game.finished?
+    @game.users.each do |user|
+      user.check_for_promotion(@game.date)
+      @game.scenario.rules.each do |rule|
+        user.assign_points(rule)
+      end
     end
   end
 
