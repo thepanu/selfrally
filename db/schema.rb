@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180526125807) do
+ActiveRecord::Schema.define(version: 20180609193505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,20 @@ ActiveRecord::Schema.define(version: 20180526125807) do
     t.string "img"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ribbons", force: :cascade do |t|
+    t.string "name"
+    t.string "bronze_url"
+    t.string "silver_url"
+    t.string "gold_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ribbons_rules", id: false, force: :cascade do |t|
+    t.bigint "ribbon_id", null: false
+    t.bigint "rule_id", null: false
   end
 
   create_table "rules", force: :cascade do |t|
@@ -413,6 +427,15 @@ ActiveRecord::Schema.define(version: 20180526125807) do
     t.integer "user_id"
     t.integer "rank_id"
     t.datetime "promotion_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_ribbons", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "ribbon_id"
+    t.integer "badgeclass", default: 0
+    t.integer "points", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

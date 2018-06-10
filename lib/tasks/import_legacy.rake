@@ -4,6 +4,39 @@ require 'securerandom'
 
 namespace(:db) do
   namespace(:import) do
+    desc 'import ribbons' 
+    task ribbons: :environment do
+      legacy_database.query('SELECT * FROM badge').each do |ribbon|
+        Ribbon.find_or_create_by(
+          id: ribbon['id'],
+          name: ribbon['name']
+        ).update_attributes(
+          bronze_url: "ribbons/#{ribbon['id']}_bronze.jpg",
+          silver_url: "ribbons/#{ribbon['id']}_silver.jpg",
+          gold_url: "ribbons/#{ribbon['id']}_golden.jpg"
+        )
+      end
+      reset_pk_sequence
+    end
+   
+    desc 'import ribbon rules'
+    task ribbon_rules: :environment do
+      legacy_database.query('SELECT * FROM badge_rule').each do |rule|
+        Ribbon.find(rule['badge'].to_i).rules << Rule.find(rule['rule'].to_i)
+      end
+    end
+
+    desc 'assign ribbons'
+    task assign_ribbons: :environment do
+      User.all.each do |user|
+        user.games.each do |game|
+          game.scenario.rules.each do |rule|
+            user.assign_points(rule)
+          end
+        end
+      end
+    end
+
     desc 'import legacy users'
     task users: :environment do
       users = legacy_database.query('SELECT * FROM player')

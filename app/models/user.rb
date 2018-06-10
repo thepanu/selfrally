@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :games, through: :game_players
   has_many :user_ranks
   has_many :ranks, through: :user_ranks
+  has_many :user_ribbons
+  has_many :ribbons, through: :user_ribbons
 
   ############################################################################################
   ## PeterGate Roles                                                                        ##
@@ -64,6 +66,21 @@ class User < ApplicationRecord
 
   def next_rank
     Rank.where('ranks.limit > ?', current_rank.limit).order(limit: :asc).first
+  end
+
+  # Ribbons
+  # :reek:FeatureEnvy
+  def assign_points(rule)
+    rids = Ribbon.joins(:rules).where(rules: { id: rule.id }).pluck(:id)
+    rids.each do |rid|
+      uribbon = user_ribbons.find_or_create_by(
+        ribbon_id: rid
+      )
+      uribbon.update_attributes(
+        points: uribbon.points + 1,
+        badgeclass: uribbon.raise_class
+      )
+    end
   end
 
   def elo

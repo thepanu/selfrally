@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
+  get 'ribbons/index'
+
   #get 'games/prepare_players', to: 'games#prepare_players'
   resources :games
+  resources :ribbons
   resources :users
   resources :scenarios do
 #    resources :comments, module: :scenarios
