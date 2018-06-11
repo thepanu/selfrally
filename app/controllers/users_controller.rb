@@ -1,6 +1,10 @@
 # User controller
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[show edit update destroy games]
+
+  def games
+    @games = @user.games
+  end
 
   private
 
