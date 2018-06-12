@@ -21,3 +21,7 @@
     </ul>
   </div>
 </div>
+<div>
+  <h4>Recent Gaming Reports</h4>
+  <%=  render partial: 'shared/game_card', collection: @games, as: :game %>
+  <%= link_to "more reports here", games_path %>

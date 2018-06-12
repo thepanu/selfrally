@@ -1,4 +1,6 @@
 # Pages controller
 class PagesController < ApplicationController
-  def home; end
+  def home
+    @games = Game.all.order(date: :desc).limit(3)
+  end
 end
