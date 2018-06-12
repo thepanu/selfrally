@@ -27,6 +27,16 @@ class Game < ApplicationRecord
     game_players.where.not(user_id: player.user_id).first.user
   end
 
+  def player_by_initiative(initiative)
+    game_players.where(
+      force_id: force_by_initiative(initiative).id
+    ).first
+  end
+
+  def force_by_initiative(initiative)
+    scenario.scenario_forces.where(initiative: initiative).first.force
+  end
+
   def update_ratings
     update_attributes(provisional: provisional?)
     game_players.each do |play|

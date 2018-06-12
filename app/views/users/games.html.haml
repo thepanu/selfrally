@@ -2,5 +2,6 @@
   .card-header
     =render 'menu' 
   .card-body
-    -@games.each do |game|
-      .row= render 'shared/game_card', :game => game 
+    =paginate @games
+    .row= render partial: 'shared/game_card', collection: @games, as: :game
+    =paginate @games

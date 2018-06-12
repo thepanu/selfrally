@@ -1,5 +1,5 @@
 %ul.nav.nav-tabs.card-header-tabs
-  %li.nav-item= link_to "#{@user.current_rank.name.humanize} #{@user.full_name}", "#", class: "nav-link active"
-  %li.nav-item= link_to "Game List", games_user_path(@user), class: "nav-link"
+  %li.nav-item= link_to "#{@user.current_rank.name.humanize} #{@user.full_name}", user_path(@user), class: "nav-link #{active?({url: user_path(@user)})}"
+  %li.nav-item= link_to "Game List", games_user_path(@user), class: "nav-link #{active?({url: games_user_path(@user)})}"
   %li.nav-item= link_to "Opponents", "#", class: "nav-link disabled"
   %li.nav-item= link_to "Player Analysis", "#", class: "nav-link disabled"
