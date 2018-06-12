@@ -1,0 +1,6 @@
+.card
+  .card-header
+    =render 'menu' 
+  .card-body
+    -@games.each do |game|
+      .row= render 'shared/game_card', :game => game 

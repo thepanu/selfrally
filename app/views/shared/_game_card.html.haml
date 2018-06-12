@@ -1,0 +1,11 @@
+.card.w-75.mb-3
+  .card-header
+    .row
+      .col-sm-3= game.date.strftime("%d.%m.%Y")
+      .col-sm-6.text-center= link_to game.scenario.name, scenario_path(game.scenario)
+      .col-sm-3= link_to "Report #{game.id}", game_path(game)
+  .card-body
+    .row
+      .col-sm-5= render 'shared/player_in_game_card', :player => game.game_players.first, :init => true
+      .col-sm-2 stats
+      .col-sm-5= render 'shared/player_in_game_card', :player => game.game_players.first, :init => false 

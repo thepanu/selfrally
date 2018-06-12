@@ -5,7 +5,13 @@ Rails.application.routes.draw do
   #get 'games/prepare_players', to: 'games#prepare_players'
   resources :games
   resources :ribbons
-  resources :users
+
+  resources :users do
+    member do
+      get 'games'
+    end
+  end
+
   resources :scenarios do
 #    resources :comments, module: :scenarios
   end
