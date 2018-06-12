@@ -4,6 +4,8 @@ feature "Public access to user info", type: :feature do
   before do
    @user = FactoryGirl.create(:user, first_name: "Teppo", last_name: "Testaaja")
    FactoryGirl.create(:rank, limit: 0)
+   @game = FactoryGirl.create(:game)
+   @game.game_players << FactoryGirl.create(:game_player, user_id: @user.id)
   end
   scenario "visitor is able to load user show" do
     visit user_path(@user) 
@@ -12,6 +14,7 @@ feature "Public access to user info", type: :feature do
   scenario "visitor is able to load users game list" do
     visit user_path(@user)
     click_link "Game List"
-    expect(page).to have_content "Gaming History"
+    expect(page).to have_content @game.id
+    expect(page).to have_content @user.full_name
   end
 end

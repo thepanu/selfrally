@@ -1,10 +1,6 @@
 .card
   .card-header
-    %ul.nav.nav-tabs.card-header-tabs
-      %li.nav-item= link_to "#{@user.current_rank.name.humanize} #{@user.full_name}", "#", class: "nav-link active"
-      %li.nav-item= link_to "Game List", games_user_path(@user), class: "nav-link"
-      %li.nav-item= link_to "Opponents", "#", class: "nav-link disabled"
-      %li.nav-item= link_to "Player Analysis", "#", class: "nav-link disabled"
+    =render 'menu' 
   .card-body
     .card-block
       .card.mb-3
