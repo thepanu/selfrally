@@ -5,13 +5,13 @@
     .card-block
       .card.mb-3
         .card-body
-          -@user.user_ribbons.each do |ribbon|
+          -@user.user_ribbons.includes(:ribbon).each do |ribbon|
             = render 'ribbon_card', :ribbon => ribbon
       .card.mb-3
         .card-body
           .row
             .col= image_tag(asset_path(@user.current_rank.img))
-          -@user.user_ranks.order(promotion_date: :desc).each do |user_rank|
+          -@user.user_ranks.order(promotion_date: :desc).includes(:rank).each do |user_rank|
             .row
               .col.small #{user_rank.rank.name.capitalize} (#{user_rank.promotion_date.strftime("%d.%m.%Y")})
 

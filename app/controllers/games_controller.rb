@@ -6,7 +6,7 @@ class GamesController < ApplicationController
 
   # GET /games
   def index
-    @games = Game.order(id: :desc).page params[:page]
+    @games = Game.includes(:scenario).order(id: :desc).page params[:page]
   end
 
   # GET /games/1

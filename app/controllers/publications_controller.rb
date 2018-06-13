@@ -64,7 +64,7 @@ class PublicationsController < ApplicationController
 
   def init_filterrific
     initialize_filterrific(
-      Publication,
+      Publication.includes(:publisher),
       params[:filterrific],
       select_options: {
         sorted_by: Publication.options_for_sorted_by
