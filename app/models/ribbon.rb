@@ -7,6 +7,6 @@ class Ribbon < ApplicationRecord
   validates :name, presence: true
 
   def assigned_ribbons(badgeclass)
-    user_ribbons.where(badgeclass: badgeclass)
+    user_ribbons.where(badgeclass: badgeclass).includes(:user)
   end
 end

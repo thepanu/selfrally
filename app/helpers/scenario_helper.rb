@@ -12,11 +12,11 @@ module ScenarioHelper
   end
 
   def publisher_link(publisher)
-    link_to(publisher.name, publisher)
+    link_to(publisher.name, publisher_show_path(publisher))
   end
 
   def publication_link(publication)
-    link_to(publication.name, publication)
+    link_to(publication.name, publication_show_path(publication))
   end
 
   def force_counter(force, scenario)
