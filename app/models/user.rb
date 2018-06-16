@@ -24,6 +24,15 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :email, :nick, presence: true
   validates :email, :nick, uniqueness: true
 
+  after_create :init
+
+  def init
+    user_ranks.create(
+      rank_id: Rank.all.order(limit: :asc).first.id,
+      promotion_date: Time.now
+    )
+  end
+
   def full_name
     format(
       '%<firstname>s %<lastname>s',

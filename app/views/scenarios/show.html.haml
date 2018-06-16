@@ -41,7 +41,7 @@
         .card.mb-3
           .card-header Counters
           .card-body
-            - @scenario.scenario_counters.order(force_id: :asc).each do |scenario_counter|
+            - @scenario.scenario_counters.includes(:counter).order(force_id: :asc).each do |scenario_counter|
               .row
                 .col= scenario_counter.counter.to_s
       .col-md-6.col-lg-4.col-xl-3 
@@ -58,13 +58,6 @@
               .row.ml-1= rule.name
       .col-md-6.col-lg-4.col-xl-3
         .card.mb-3
-          .card-header Gaming results on this scenario
-          .card-body
-            - @scenario.games.each do |game|
-              .row
-                .col= link_to game.id, game
-      .col-md-6.col-lg-4.col-xl-3
-        .card.mb-3
           .card-header Rating
           .card-body
             .row
@@ -75,3 +68,10 @@
           .card-body
             .row
               .col WIP
+    .row
+      .col
+        .card.mb-3
+          .card-header Gaming results on this scenario
+          .card-body
+            .row= render partial: 'shared/game_card', collection: @scenario.games, as: :game
+

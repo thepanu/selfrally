@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Scenario, type: :model do
+
+  it "has a valid factory with forces" do
+    expect(FactoryGirl.create(:scenario_with_forces)).to be_valid
+  end
+
   it "is valid with a date, scenario and status" do
     scen = FactoryGirl.build(:scenario)
     expect(scen).to be_valid

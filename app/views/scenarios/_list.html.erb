@@ -15,9 +15,9 @@
       <tr>
         <td><%= link_to scenario.name, scenario_show_path(scenario) %></td>
         <td><%= scenario.belligerents %></td>
-        <td><%= scenario.scenario_date %></td>
+        <td><%= scenario.scenario_date.strftime("%d.%m.%Y") unless scenario.scenario_date.nil? %></td>
         <td><%= scenario.gameturns %></td>
-        <td><%= scenario.location_id %></td>
+        <td><%= scenario.location.name.humanize unless scenario.location_id.nil? %></td>
       </tr>
     <% end %>
   </tbody>

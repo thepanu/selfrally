@@ -1,0 +1,6 @@
+%h1 Game reports
+.card
+  .card-body
+    =paginate @games
+    .row= render partial: 'shared/game_card', collection: @games, as: :game
+    =paginate @games
