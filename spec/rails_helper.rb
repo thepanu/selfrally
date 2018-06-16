@@ -8,7 +8,28 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 require 'rspec/rails'
 require 'capybara/rails'
+
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+
+# Various helpers to be used in tests 
+module FeatureHelper
+  def select2(value, **options)
+    first("#select2-#{options[:from]}-container").click
+    find(".select2-results__option", text: value).click
+  end
+end
+
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+Capybara.javascript_driver = :selenium_chrome_headless
+
+Capybara.configure do |config|
+  config.default_max_wait_time = 10 # seconds
+  config.default_driver        = :rack_test #:selenium
+end
+
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -25,7 +46,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+#Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -34,7 +55,7 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
+  config.include FeatureHelper, type: :feature
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -60,4 +81,5 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include Devise::Test::ControllerHelpers, type: :controller
+
 end
