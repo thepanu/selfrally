@@ -2,6 +2,7 @@ require 'rails_helper'
 
 feature "Public access to user info", type: :feature do
   before do
+    FactoryGirl.create(:rank)
     @scenario = FactoryGirl.create(:scenario)
     scenario_force_initiative = FactoryGirl.create(:scenario_force_with_initiative)
     scenario_force_second = FactoryGirl.create(:scenario_force)
@@ -17,6 +18,7 @@ feature "Public access to user info", type: :feature do
     visit user_path(@user) 
     expect(page).to have_content "Teppo Testaaja"
   end
+
   scenario "visitor is able to load users game list" do
     visit user_path(@user)
     click_link "Game List"

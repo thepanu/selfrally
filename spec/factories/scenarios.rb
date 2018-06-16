@@ -6,5 +6,11 @@ FactoryGirl.define do
     association :location
 #    association :scenario_publications
 #    association :publishers
+    factory :scenario_with_forces do 
+      after(:create) do |scenario|
+        FactoryGirl.create(:scenario_force, scenario: scenario)
+        FactoryGirl.create(:scenario_force_with_initiative, scenario: scenario)
+      end
+    end
   end
 end
