@@ -66,7 +66,7 @@ class ScenariosController < ApplicationController
 
   def init_filterrific
     initialize_filterrific(
-      Scenario,
+      Scenario.includes(:location),
       params[:filterrific],
       select_options: {
         sorted_by: Scenario.options_for_sorted_by
