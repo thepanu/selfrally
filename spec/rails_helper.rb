@@ -82,4 +82,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include Devise::Test::ControllerHelpers, type: :controller
 
+  config.define_derived_metadata(:file_path => Regexp.new('/spec/serializers/')) do |metadata|
+    metadata[:type] = :serializer
+  end
 end

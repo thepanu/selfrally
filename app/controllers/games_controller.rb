@@ -37,7 +37,7 @@ class GamesController < ApplicationController
   def update
     game_params = update_params(params)
     if @game.update(game_params)
-      @game.update_ratings
+      UpdateRatings.call(game: @game)
       redirect_to @game, notice: 'Game was successfully updated.'
     else
       render :edit
