@@ -1,5 +1,5 @@
   <div class="card<%= player.winner ? ' border-success' : '' %>" style="width: 18rem;">
-    <div class="card-header"><%= player.result.capitalize %>
+    <div class="card-header"><%= player.winner ? "Winner" : "Loser" %>
   </div>
   <div class="card-body">
     <img class="rounded mx-auto d-block" src="http://via.placeholder.com/120x120">

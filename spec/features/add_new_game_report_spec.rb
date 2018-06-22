@@ -29,9 +29,7 @@ feature "Games#new", type: :feature do
     select2(@opponent.full_name, {from: 'player-select-2'})
     click_button "Save changes"
     expect(page).to have_content @user.full_name
-    #visit games_path
-    #click_link @game.id
-    #expect(page).to have_content @game.id
-
+    expect(page).to have_content "Loser"
+    expect(page).to have_content "Winner"
   end
 end

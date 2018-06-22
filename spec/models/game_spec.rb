@@ -18,6 +18,16 @@ RSpec.describe Game, type: :model do
     expect(game.no_players?).to be false
   end
 
+  it "can tell the player with given initiative" do
+    scen = FactoryGirl.create(:scenario_with_forces)
+    game = FactoryGirl.create(:game, scenario: scen)
+    game.scenario.scenario_forces.each do |force|
+      user = FactoryGirl.create(:user)
+      FactoryGirl.create(:game_player, game: game, force: force.force, user: user)
+    end
+    expect(game.player_by_initiative(1)).to_not eql(game.player_by_initiative(0))
+  end
+
   it "ratings are not updated for provisional game" do
     game = FactoryGirl.create(:game, :status => 1)
     game.game_players << FactoryGirl.create(:game_player, :winner => true)
