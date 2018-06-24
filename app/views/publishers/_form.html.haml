@@ -1,0 +1,14 @@
+=form_for(publisher, local: true) do |form|
+  - if publisher.errors.any?
+    .alert.alert-danger#error_explanation
+      %h4 #{pluralize(publisher.errors.count, "error")} prohibited this publisher from being saved:
+      - publisher.errors.full_messages.each do |message|
+        .row.ml-3= message
+  .ml-3
+    .form-group.row
+      = form.label :name, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.text_field :name, id: :publisher_name, class: 'form-control'
+    .actions
+      = form.submit "Save", class: 'btn btn-primary'
+      = link_to 'Cancel', publishers_path, class: 'btn btn-warning'

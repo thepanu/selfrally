@@ -1,0 +1,22 @@
+=form_for(publication, local: true) do |form|
+  - if publication.errors.any?
+    .alert.alert-danger#error_explanation
+      %h4 #{pluralize(publication.errors.count, "error")} prohibited this publication from being saved:
+      - publication.errors.full_messages.each do |message|
+        .row.ml-3= message
+  .ml-3
+    .form-group.row
+      = form.label :name, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.text_field :name, id: :publication_name, class: 'form-control'
+    .form-group.row
+      = form.label :publishing_year, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.number_field :publishing_year, id: :publication_publishing_year, class: 'form-control'
+    .form-group.row
+      = form.label :publisher_id, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.collection_select :publisher_id, Publisher.all, :id, :name, { include_blank: true }, { id: :publication_publisher, class: 'form-control' }
+    .actions
+      = form.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Cancel', publications_path, class: 'btn btn-warning'
