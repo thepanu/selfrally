@@ -1,0 +1,40 @@
+= form_for(scenario, local: true) do |form|
+  - if scenario.errors.any?
+    .alert.alert-danger#error_explanation
+      %h4 #{pluralize(scenario.errors.count, "error")} prohibited this scenario from being saved:
+      - scenario.errors.full_messages.each do |message|
+        .row.ml-3= message
+  .ml-3
+    .form-group.row
+      = form.label :name, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.text_field :name, id: :scenario_name, class: 'form-control'
+    .form-group.row
+      = form.label :scenario_date, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.date_select :scenario_date, id: :scenario_scenario_date, class: 'form-control'
+    .form-group.row
+      = form.label :gameturns, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.text_field :gameturns, id: :scenario_gameturns, class: 'form-control'
+    .form-group.row
+      = form.label :location, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        =form.text_field :location_id, id: :scenario_location, class: 'form-control'
+    .card-deck.mb-3
+      - scenario.scenario_forces.each_with_index do |scenario_force, index|
+        = form.fields_for :scenario_forces do |sform|
+          .card
+            .card-body
+              .form-grop.row.align-middle
+                = sform.label :initiative, class: 'col-sm-2 col-form-label'
+                .col-sm-10
+                  %span.float-right
+                    = radio_button_tag "scenario[initiative_index]", index, scenario_force.initiative
+              .form-group.row
+                = sform.label :force, class: 'col-sm-2 col-form-label'
+                .col-sm-10
+                  = sform.collection_select :force_id, Force.all, :id, :name, { include_blank: true }, { id: "scenario_force_#{index}", class: 'form-control' }
+    .actions
+      = form.submit 'Save', class: 'btn btn-primary'
+      = link_to 'Cancel', scenarios_path, class: 'btn btn-warning'
