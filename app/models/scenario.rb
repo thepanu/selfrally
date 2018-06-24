@@ -26,6 +26,8 @@ class Scenario < ApplicationRecord
   has_many :overlays, through: :scenario_overlays
   has_many :comments, -> { order(updated_at: :asc) }, as: :commentable
 
+  accepts_nested_attributes_for :scenario_forces, allow_destroy: true
+
   scope :search_query, lambda { |query|
     where('name ILIKE ?', "%#{sanitize_sql_like(query)}%")
   }

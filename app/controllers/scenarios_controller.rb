@@ -1,7 +1,7 @@
 # Scenario controller
 class ScenariosController < ApplicationController
   before_action :set_scenario, only: %i[show edit update destroy comments]
-  access all: %i[index show new edit create update destroy comments], user: :all
+  access all: %i[show index], user: { except: [:destroy] }, admin: :all
 
   # GET /scenarios
   def index
@@ -19,6 +19,9 @@ class ScenariosController < ApplicationController
   # GET /scenarios/new
   def new
     @scenario = Scenario.new
+    2.times do
+      @scenario.scenario_forces.build
+    end
   end
 
   # GET /scenarios/1/edit
@@ -26,7 +29,9 @@ class ScenariosController < ApplicationController
 
   # POST /scenarios
   def create
-    @scenario = Scenario.new(scenario_params)
+    params = scenario_params
+    params = update_params(params)
+    @scenario = Scenario.new(params)
 
     if @scenario.save
       redirect_to @scenario, notice: 'Scenario was successfully created.'
@@ -61,7 +66,21 @@ class ScenariosController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def scenario_params
-    params.require(:scenario).permit(:name, :scenario_date, :gameturn, :location_id, :slug)
+    params.require(:scenario).permit(:name, :scenario_date, :gameturns, :location_id, :initiative_index, scenario_forces: %i[force_id initiative]) # rubocop:disable Metrics/LineLength
+  end
+
+  def scenario_forces_attrs
+    { scenario_forces: %i[force_id initiative] }
+  end
+
+  # :reek:DuplicateMethodCall :reek:TooManyStatements :reek:UtilityFunction
+  def update_params(prams)
+    initiative_index = prams[:initiative_index]
+    prams[:scenario_forces].each do |index|
+      prams[:scenario_forces][index][:initiative] = true if index == initiative_index
+    end
+    prams.permit!
+    prams.except(:initiative_index)
   end
 
   def init_filterrific
