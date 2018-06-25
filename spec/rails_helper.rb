@@ -14,8 +14,21 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # Various helpers to be used in tests 
 module FeatureHelper
   def select2(value, **options)
-    first("#select2-#{options[:from]}-container").click
+    find(".#{options[:from]}").click 
+    all(".select2-search__field", minimum: 1, wait: 15)
+    find(".select2-search__field").send_keys(value)
     find(".select2-results__option", text: value).click
+  end
+
+  def select22(field_class, options = {})
+    #within(".form-group.#{field_class}") do
+      byebug
+      find("#select2-#{field_class}-container", minimum: 1).click
+      byebug
+      find(".select2-search__field").send_keys(options.fetch(:choose, ""), :enter)
+      byebug
+      find(".select2-results__option", text: options.fetch(:choose)).click
+    #end
   end
 end
 
@@ -23,7 +36,7 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :selenium_chrome #_headless
 
 Capybara.configure do |config|
   config.default_max_wait_time = 10 # seconds
