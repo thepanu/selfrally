@@ -29,10 +29,7 @@ class ScenariosController < ApplicationController
 
   # POST /scenarios
   def create
-    params = scenario_params
-    params = update_params(params)
-    @scenario = Scenario.new(params)
-
+    @scenario = Scenario.new(update_params)
     if @scenario.save
       redirect_to @scenario, notice: 'Scenario was successfully created.'
     else
@@ -42,7 +39,7 @@ class ScenariosController < ApplicationController
 
   # PATCH/PUT /scenarios/1
   def update
-    if @scenario.update(scenario_params)
+    if @scenario.update(update_params)
       redirect_to @scenario, notice: 'Scenario was successfully updated.'
     else
       render :edit
@@ -51,11 +48,13 @@ class ScenariosController < ApplicationController
 
   # DELETE /scenarios/1
   def destroy
-    @scenario.destroy
-    redirect_to scenarios_url, notice: 'Scenario was successfully destroyed.'
+    if @scenario.games.empty?
+      @scenario.destroy
+      redirect_to scenarios_url, notice: 'Scenario was successfully destroyed.'
+    else
+      render :show
+    end
   end
-
-  #  def comments; end
 
   private
 
@@ -66,21 +65,19 @@ class ScenariosController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def scenario_params
-    params.require(:scenario).permit(:name, :scenario_date, :gameturns, :location_id, :initiative_index, scenario_forces: %i[force_id initiative]) # rubocop:disable Metrics/LineLength
+    params.require(:scenario).permit(:name, :scenario_date, :gameturns, :location_id, scenario_forces_attrs)
   end
 
   def scenario_forces_attrs
-    { scenario_forces: %i[force_id initiative] }
+    { scenario_forces_attributes: %i[id force_id initiative] }
   end
 
-  # :reek:DuplicateMethodCall :reek:TooManyStatements :reek:UtilityFunction
-  def update_params(prams)
-    initiative_index = prams[:initiative_index]
-    prams[:scenario_forces].each do |index|
-      prams[:scenario_forces][index][:initiative] = true if index == initiative_index
-    end
-    prams.permit!
-    prams.except(:initiative_index)
+  # :reek:DuplicateMethodCall
+  def update_params
+    params[:scenario][:scenario_forces_attributes][
+      params[:scenario][:initiative_index]
+    ][:initiative] = 1
+    scenario_params
   end
 
   def init_filterrific

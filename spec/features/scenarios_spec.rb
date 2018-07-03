@@ -41,28 +41,28 @@ feature "Scenarios", type: :feature do
       click_button "Log in"    
       @publication = FactoryGirl.create(:publication)
       @location = FactoryGirl.create(:location)
+      @side_a = FactoryGirl.create(:force)
+      @side_b = FactoryGirl.create(:force)
     end
 
-    scenario "can #new/create" do
+    scenario "can #new/create/edit" do
       visit scenarios_path
       expect(page).to have_content "Add new Scenario"
       click_link "Add new Scenario"
       fill_in "scenario_name", with: 'Just a Test Scenario'
       fill_in 'scenario_gameturns', with: 5.5
       fill_in 'scenario_location', with: @location.id
+      choose('scenario_initiative_index_0')
+      select(@side_a.name, from: 'scenario_scenario_forces_attributes_0_force_id')
+      select(@side_b.name, from: 'scenario_scenario_forces_attributes_1_force_id')
       click_button 'Save'
       expect(page).to have_content 'Just a Test'
+      click_link 'Edit'
+      fill_in 'scenario_name', with: 'New name'
+      click_button 'Save'
+      expect(page).to have_content 'New name'
     end
 
-    scenario "can #edit" do
-      scenario = FactoryGirl.create(:scenario)
-      visit scenario_show_path(scenario)
-      click_link "Edit"
-      expect(page).to have_content "Editing"
-      fill_in "scenario_name", with: "Edited name"
-      click_button "Save"
-      expect(page).to have_content "Edited name"
-    end
   end
 
   context "when logged in as admin" do
@@ -77,11 +77,10 @@ feature "Scenarios", type: :feature do
     end
 
     scenario "can #destroy", js: true do
-      scenario = FactoryGirl.create(:scenario)
+      scenario = FactoryGirl.create(:scenario_with_forces)
       visit scenario_show_path(scenario)
-      click_link "Destroy"
+      click_link 'Delete' 
       page.driver.browser.switch_to.alert.accept
-      expect(page).to_not have_content scenario.name
       expect(page).to have_content "destroyed"
     end
   end

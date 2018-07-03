@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get 'scenario/:slug/comments', to: 'scenarios#comments#index', as: 'scenario_comments'
   post 'scenario/:slug/comments', to: 'scenarios/comments#create'
   get 'scenario/:slug/edit', to: 'scenarios#edit', as: 'scenario_edit'
+  get 'scenario/:slug/destroy', to: 'scenarios#destroy', as: 'scenario_destroy'
   get 'admin/users'
   # get 'admin/edit_user'
   # resources :admin

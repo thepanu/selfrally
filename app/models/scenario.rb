@@ -14,7 +14,7 @@ class Scenario < ApplicationRecord
   has_many :scenario_publications
   has_many :publications, through: :scenario_publications
   has_many :games
-  has_many :scenario_forces
+  has_many :scenario_forces, inverse_of: :scenario
   has_many :forces, through: :scenario_forces
   has_many :scenario_counters
   has_many :counters, through: :scenario_counters
@@ -26,7 +26,7 @@ class Scenario < ApplicationRecord
   has_many :overlays, through: :scenario_overlays
   has_many :comments, -> { order(updated_at: :asc) }, as: :commentable
 
-  accepts_nested_attributes_for :scenario_forces, allow_destroy: true
+  accepts_nested_attributes_for :scenario_forces, allow_destroy: true, reject_if: :all_blank
 
   scope :search_query, lambda { |query|
     where('name ILIKE ?', "%#{sanitize_sql_like(query)}%")

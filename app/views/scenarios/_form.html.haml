@@ -22,19 +22,21 @@
       .col-sm-10
         =form.text_field :location_id, id: :scenario_location, class: 'form-control'
     .card-deck.mb-3
-      - scenario.scenario_forces.each_with_index do |scenario_force, index|
-        = form.fields_for :scenario_forces do |sform|
-          .card
-            .card-body
-              .form-grop.row.align-middle
-                = sform.label :initiative, class: 'col-sm-2 col-form-label'
-                .col-sm-10
-                  %span.float-right
-                    = radio_button_tag "scenario[initiative_index]", index, scenario_force.initiative
-              .form-group.row
-                = sform.label :force, class: 'col-sm-2 col-form-label'
-                .col-sm-10
-                  = sform.collection_select :force_id, Force.all, :id, :name, { include_blank: true }, { id: "scenario_force_#{index}", class: 'form-control' }
+      - index = 0
+      = form.fields_for :scenario_forces do |sform|
+        = sform.hidden_field :initiative
+        .card
+          .card-body
+            .form-grop.row.align-middle
+              = sform.label :initiative, class: 'col-sm-2 col-form-label'
+              .col-sm-10
+                %span.float-right
+                  = radio_button_tag "scenario[initiative_index]", index, sform.object.initiative == 1
+            .form-group.row
+              = sform.label :force, class: 'col-sm-2 col-form-label'
+              .col-sm-10
+                = sform.collection_select :force_id, Force.all, :id, :name, { include_blank: true }, {  class: 'form-control' }
+                - index += 1
     .actions
       = form.submit 'Save', class: 'btn btn-primary'
       = link_to 'Cancel', scenarios_path, class: 'btn btn-warning'
