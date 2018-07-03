@@ -27,7 +27,7 @@ coverage/*
 .byebug_history
 
 # keep secrets secret
-/config/secrets.yml
+#/config/secrets.yml
 
 # Use just local db config
 /config/database.yml
