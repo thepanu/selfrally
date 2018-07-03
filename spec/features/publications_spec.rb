@@ -78,7 +78,7 @@ feature "Publications", type: :feature do
     scenario "can #destroy", js: true do
       publication = FactoryGirl.create(:publication)
       visit publication_show_path(publication)
-      click_link "Destroy"
+      click_link "Delete"
       page.driver.browser.switch_to.alert.accept
       expect(page).to_not have_content publication.name
       expect(page).to have_content "destroyed"

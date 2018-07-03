@@ -72,11 +72,13 @@ class ScenariosController < ApplicationController
     { scenario_forces_attributes: %i[id force_id initiative] }
   end
 
-  # :reek:DuplicateMethodCall
+  # :reek:DuplicateMethodCall :reek:FeatureEnvy
   def update_params
-    params[:scenario][:scenario_forces_attributes][
-      params[:scenario][:initiative_index]
-    ][:initiative] = 1
+    scenario = params[:scenario]
+    initiative_index = scenario[:initiative_index]
+    scenario[:scenario_forces_attributes].each do |index|
+      scenario[:scenario_forces_attributes][index][:initiative] = index == initiative_index
+    end
     scenario_params
   end
 
