@@ -1,5 +1,8 @@
 .card
   .card-header
+    %span.float-right.d-inline
+      = link_to 'Edit', scenario_edit_path(@scenario), class: 'btn btn-secondary' if logged_in?(:user)
+      = link_to 'Delete', scenario_destroy_path(@scenario), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if logged_in?(:admin) if logged_in?(:admin)
     %ul.nav.nav-tabs.card-header-tabs
       %li.nav-item= link_to "Info", "#", class: "nav-link active"
       %li.nav-item= link_to "Comments", scenario_comments_path(@scenario), class: "nav-link"

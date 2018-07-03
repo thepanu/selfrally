@@ -1,7 +1,7 @@
 # Publications controller
 class PublicationsController < ApplicationController
-  before_action :set_publication, only: %i[show edit update destroy]
-  access all: %i[index show new edit create update destroy], user: :all
+  before_action :set_publication, only: %i[show edit destroy]
+  access all: %i[show index], user: { except: [:destroy] }, admin: :all
 
   # GET /publications
   def index
@@ -29,7 +29,7 @@ class PublicationsController < ApplicationController
     @publication = Publication.new(publication_params)
 
     if @publication.save
-      redirect_to @publication, notice: 'Publication was successfully created.'
+      redirect_to publication_show_path(@publication), notice: 'Publication was successfully created.'
     else
       render :new
     end
@@ -37,8 +37,9 @@ class PublicationsController < ApplicationController
 
   # PATCH/PUT /publications/1
   def update
+    @publication = Publication.find_by(slug: params[:id])
     if @publication.update(publication_params)
-      redirect_to @publication, notice: 'Publication was successfully updated.'
+      redirect_to publication_show_path(@publication), notice: 'Publication was successfully updated.'
     else
       render :edit
     end

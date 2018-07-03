@@ -1,0 +1,12 @@
+.card
+  .card-header
+    %h3.d-inline= @publication.name
+    %span.d-inline.float-right
+      = link_to 'Edit', publication_edit_path(@publication), class: 'btn btn-secondary' if logged_in?(:user)
+      = link_to 'Delete', publication_destroy_path(@publication), class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if logged_in?(:admin)
+  .card-body
+    %p From #{link_to @publication.publisher.name, publisher_show_path(@publication.publisher)}
+    %p Publishing year: #{@publication.publishing_year}
+    %p
+      - @publication.scenarios.each do |scenario|
+        .row= link_to scenario.name, scenario_show_path(scenario)

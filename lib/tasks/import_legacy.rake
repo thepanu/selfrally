@@ -216,7 +216,7 @@ namespace(:db) do
       legacy_database.query('SELECT * FROM scenario_side').each do |side|
         ScenarioForce.find_or_create_by!(scenario_id: side['scenario'],
                                          force_id: Force.find_or_create_by(name: side['side']).id,
-                                         initiative: side['initiative'])
+                                         initiative: side['initiative'] == 1)
         # puts "sc: #{side['scenario']} side: #{side['side']}" if Force.where(name: side['side']).first.nil?
       end
     end
