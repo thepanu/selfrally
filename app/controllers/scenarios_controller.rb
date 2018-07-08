@@ -65,7 +65,7 @@ class ScenariosController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def scenario_params
-    params.require(:scenario).permit(scenario_attrs, scenario_forces_attrs, scenario_rules_attributes: [:id])
+    params.require(:scenario).permit(scenario_attrs, scenario_forces_attrs, rule_ids: [])
   end
 
   def scenario_attrs

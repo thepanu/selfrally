@@ -40,8 +40,12 @@
     .card
       .card-header Rules
       .card-body
-        .form-group.row
-          = form.collection_check_boxes(:rule_ids, Rule.all, :id, :name)
+        .form-group.ml-3
+          = form.collection_check_boxes(:rule_ids, Rule.all, :id, :name) do |b|
+            .form-check
+              = b.check_box class: 'form-check-input'
+              = b.label class: 'form-check-label'
+
     .actions
       = form.submit 'Save', class: 'btn btn-primary'
       = link_to 'Cancel', scenarios_path, class: 'btn btn-warning'
