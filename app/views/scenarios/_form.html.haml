@@ -37,11 +37,27 @@
               .col-sm-10
                 = sform.collection_select :force_id, Force.all, :id, :name, { include_blank: true }, {  class: 'form-control' }
                 - index += 1
-    .card
+    .card.mb-3
       .card-header Rules
       .card-body
         .form-group.ml-3
           = form.collection_check_boxes(:rule_ids, Rule.all, :id, :name) do |b|
+            .form-check
+              = b.check_box class: 'form-check-input'
+              = b.label class: 'form-check-label'
+    .card.mb-3
+      .card-header Counters
+      .card-body
+        .form-group.ml-3
+          = form.collection_check_boxes(:counter_ids, Counter.all, :id, :to_s) do |b|
+            .form-check
+              = b.check_box class: 'form-check-input'
+              = b.label class: 'form-check-label'
+    .card.mb-3
+      .card-header Maps
+      .card-body
+        .form-group.ml-3
+          = form.collection_check_boxes(:map_ids, Map.all, :id, :name) do |b|
             .form-check
               = b.check_box class: 'form-check-input'
               = b.label class: 'form-check-label'
