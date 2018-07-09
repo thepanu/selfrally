@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :scenario_counter do
     association :scenario
-    association :force
+#    association :force
     association :counter
   end
 end

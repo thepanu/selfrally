@@ -1,7 +1,7 @@
 # Scenario controller
 class ScenariosController < ApplicationController
   before_action :set_scenario, only: %i[show edit update destroy comments]
-  access all: %i[show index], user: { except: [:destroy] }, admin: :all
+  access all: %i[show index comments], user: { except: [:destroy] }, admin: :all
 
   # GET /scenarios
   def index

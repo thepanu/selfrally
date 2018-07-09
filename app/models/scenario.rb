@@ -31,6 +31,8 @@ class Scenario < ApplicationRecord
   accepts_nested_attributes_for :scenario_maps, allow_destroy: true
   accepts_nested_attributes_for :scenario_counters, allow_destroy: true
 
+  after_initialize :init
+
   scope :search_query, lambda { |query|
     where('name ILIKE ?', "%#{sanitize_sql_like(query)}%")
   }
@@ -43,6 +45,10 @@ class Scenario < ApplicationRecord
       raise(ArgumentError, "Invalid sort option: #{sort_key.inspect}")
     end
   }
+
+  def init
+    self.scenario_date ||= Date.new(1942, 6, 30)
+  end
 
   def belligerents
     forces.pluck(:name).map(&:capitalize).join(' - ')
