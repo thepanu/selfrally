@@ -16,17 +16,22 @@ class Scenario < ApplicationRecord
   has_many :games
   has_many :scenario_forces, inverse_of: :scenario
   has_many :forces, through: :scenario_forces
-  has_many :scenario_counters
+  has_many :scenario_counters, inverse_of: :scenario
   has_many :counters, through: :scenario_counters
-  has_many :scenario_rules
+  has_many :scenario_rules, inverse_of: :scenario
   has_many :rules, through: :scenario_rules
-  has_many :scenario_maps
+  has_many :scenario_maps, inverse_of: :scenario
   has_many :maps, through: :scenario_maps
   has_many :scenario_overlays
   has_many :overlays, through: :scenario_overlays
   has_many :comments, -> { order(updated_at: :asc) }, as: :commentable
 
   accepts_nested_attributes_for :scenario_forces, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :scenario_rules, allow_destroy: true
+  accepts_nested_attributes_for :scenario_maps, allow_destroy: true
+  accepts_nested_attributes_for :scenario_counters, allow_destroy: true
+
+  after_initialize :init
 
   scope :search_query, lambda { |query|
     where('name ILIKE ?', "%#{sanitize_sql_like(query)}%")
@@ -40,6 +45,10 @@ class Scenario < ApplicationRecord
       raise(ArgumentError, "Invalid sort option: #{sort_key.inspect}")
     end
   }
+
+  def init
+    self.scenario_date ||= Date.new(1942, 6, 30)
+  end
 
   def belligerents
     forces.pluck(:name).map(&:capitalize).join(' - ')

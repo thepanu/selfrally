@@ -1,7 +1,7 @@
 # Scenario controller
 class ScenariosController < ApplicationController
   before_action :set_scenario, only: %i[show edit update destroy comments]
-  access all: %i[show index], user: { except: [:destroy] }, admin: :all
+  access all: %i[show index comments], user: { except: [:destroy] }, admin: :all
 
   # GET /scenarios
   def index
@@ -65,7 +65,11 @@ class ScenariosController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def scenario_params
-    params.require(:scenario).permit(:name, :scenario_date, :gameturns, :location_id, scenario_forces_attrs)
+    params.require(:scenario).permit(scenario_attrs, scenario_forces_attrs, rule_ids: [], map_ids: [], counter_ids: [])
+  end
+
+  def scenario_attrs
+    %i[name scenario_date gameturns location_id]
   end
 
   def scenario_forces_attrs
