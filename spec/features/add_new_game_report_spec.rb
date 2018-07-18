@@ -3,11 +3,11 @@ require 'rails_helper'
 
 feature "Games#new", type: :feature do
   before do
-    @scenario = FactoryGirl.create(:scenario_with_forces)
-    @user = FactoryGirl.create(:user)
-    @opponent = FactoryGirl.create(:user, first_name: "Antero")
+    @scenario = FactoryBot.create(:scenario_with_forces)
+    @user = FactoryBot.create(:user)
+    @opponent = FactoryBot.create(:user, first_name: "Antero")
     @user.confirm
-    FactoryGirl.create(:rank, limit: 5)
+    FactoryBot.create(:rank, limit: 5)
   end
 
   # This won't run in vim, run in external terminal

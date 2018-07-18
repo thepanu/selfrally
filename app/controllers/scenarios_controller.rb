@@ -81,7 +81,7 @@ class ScenariosController < ApplicationController
     scenario = params[:scenario]
     initiative_index = scenario[:initiative_index]
     scenario[:scenario_forces_attributes].each do |index|
-      scenario[:scenario_forces_attributes][index][:initiative] = index == initiative_index
+      scenario[:scenario_forces_attributes][index[0]][:initiative] = index[0] == initiative_index
     end
     scenario_params
   end

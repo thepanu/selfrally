@@ -4,7 +4,7 @@ require 'rails_helper'
 feature "Scenarios", type: :feature do
   
   before do
-    @scenario = FactoryGirl.create(:scenario_with_forces)
+    @scenario = FactoryBot.create(:scenario_with_forces)
   end
 
   context "when not logged in" do
@@ -33,16 +33,16 @@ feature "Scenarios", type: :feature do
   context "when logged in" do
 
     before do
-      @user = FactoryGirl.create(:user)
+      @user = FactoryBot.create(:user)
       @user.confirm
       visit new_user_session_path
       fill_in "user_email", with: @user.email
       fill_in "user_password", with: @user.password
       click_button "Log in"    
-      @publication = FactoryGirl.create(:publication)
-      @location = FactoryGirl.create(:location)
-      @side_a = FactoryGirl.create(:force)
-      @side_b = FactoryGirl.create(:force)
+      @publication = FactoryBot.create(:publication)
+      @location = FactoryBot.create(:location)
+      @side_a = FactoryBot.create(:force)
+      @side_b = FactoryBot.create(:force)
     end
 
     scenario "can #new/create/edit" do
@@ -68,7 +68,7 @@ feature "Scenarios", type: :feature do
   context "when logged in as admin" do
 
     before do
-      @user = FactoryGirl.create(:user, roles: [:admin])
+      @user = FactoryBot.create(:user, roles: [:admin])
       @user.confirm
       visit new_user_session_path
       fill_in "user_email", with: @user.email
@@ -77,7 +77,7 @@ feature "Scenarios", type: :feature do
     end
 
     scenario "can #destroy", js: true do
-      scenario = FactoryGirl.create(:scenario_with_forces)
+      scenario = FactoryBot.create(:scenario_with_forces)
       visit scenario_show_path(scenario)
       click_link 'Delete' 
       page.driver.browser.switch_to.alert.accept

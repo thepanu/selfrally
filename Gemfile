@@ -1,12 +1,17 @@
 source 'https://rubygems.org'
 
+ruby '~> 2.5.0'
+
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.4'
+gem 'activestorage'
+gem 'rails', '~> 5.2.0'
+
+gem 'bootsnap'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -38,7 +43,8 @@ group :development, :test do
   gem 'capybara'
   gem 'capybara-select2'
   gem 'chromedriver-helper'
-  gem 'factory_girl_rails', '~> 4.8.0'
+  #  gem 'factory_girl_rails', '~> 4.8.0'
+  gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 3.6.0'
   gem 'selenium-webdriver'
   gem 'webdrivers'
@@ -71,7 +77,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
 # Added for this project
-gem 'devise', '~> 4.3'
+gem 'devise', '~> 4.4'
 ## added because problems in win
 gem 'bcrypt', '~> 3.1.11'
 
