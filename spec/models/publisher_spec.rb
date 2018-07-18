@@ -2,9 +2,9 @@ require 'rails_helper'
 RSpec.describe Publisher, type: :model do
   before do
 
-    @publisher = FactoryGirl.create(:publisher, name: "Julkaisija")
-    @publisher2 = FactoryGirl.create(:publisher, name: "Toinen Julkaisija")
-    @publisher3 = FactoryGirl.create(:publisher, name: "Vaihtoehto")
+    @publisher = FactoryBot.create(:publisher, name: "Julkaisija")
+    @publisher2 = FactoryBot.create(:publisher, name: "Toinen Julkaisija")
+    @publisher3 = FactoryBot.create(:publisher, name: "Vaihtoehto")
   end
   describe "search publisher name for a term" do
     it "has sorting option for sorting asc/desc by name" do

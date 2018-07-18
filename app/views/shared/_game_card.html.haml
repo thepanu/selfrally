@@ -7,7 +7,7 @@
         %span.float-right= link_to "Report #{game.id}", game_path(game)
   .card-body
     .row
-      .col-sm-5= render 'shared/player_in_game_card', :player => game.player_by_initiative(1), :init => true
+      .col-sm-5= render 'shared/player_in_game_card', :player => game.player_by_initiative(true), :init => true
       .col-sm-2
         %h3 VS
-      .col-sm-5= render 'shared/player_in_game_card', :player => game.player_by_initiative(0), :init => false 
+      .col-sm-5= render 'shared/player_in_game_card', :player => game.player_by_initiative(false), :init => false 

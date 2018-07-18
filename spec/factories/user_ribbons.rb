@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_ribbon do
     user_id 1
     ribbon_id 1

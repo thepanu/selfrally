@@ -60,11 +60,11 @@ class GamesController < ApplicationController
   private
 
   # :reek:DuplicateMethodCall :reek:TooManyStatements :reek:UtilityFunction
-  def update_params(params)
+  def update_params(params) # rubocop:disable Metrics/AbcSize
     winner_index = params[:game][:winner_index]
     params[:game][:game_players_attributes].each do |index|
-      if index == winner_index
-        params[:game][:game_players_attributes][index][:winner] = true
+      if index[0] == winner_index
+        params[:game][:game_players_attributes][index[0]][:winner] = true
         params[:game][:status] = 'finished'
       end
     end

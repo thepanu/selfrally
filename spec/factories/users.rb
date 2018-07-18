@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     first_name "Antti"
     last_name "Aslaaja"
@@ -7,7 +7,7 @@ FactoryGirl.define do
     password "testi-passu"
 
     after(:build) do
-      FactoryGirl.create(:rank, limit: 0)
+      FactoryBot.create(:rank, limit: 0)
 
     end
   end

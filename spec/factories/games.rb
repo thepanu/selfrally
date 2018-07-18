@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :game do
     sequence(:date) { |n| Time.now + n.hours }
     turnsplayed 5

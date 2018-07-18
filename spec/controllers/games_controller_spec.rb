@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe GamesController, type: :controller do
   describe "#index" do
     before do
-      @user = FactoryGirl.create(:user)
+      @user = FactoryBot.create(:user)
       @user.confirm
     end
     context "as an authenticated user" do
@@ -22,7 +22,7 @@ RSpec.describe GamesController, type: :controller do
   describe "#new" do
     context "as an authenticated user" do
       before do
-        @user = FactoryGirl.create(:user)
+        @user = FactoryBot.create(:user)
         @user.confirm
       end
       it "returns a 200 response" do

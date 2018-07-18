@@ -3,20 +3,20 @@ require 'rails_helper'
 RSpec.describe Scenario, type: :model do
 
   it "has a valid factory with forces" do
-    expect(FactoryGirl.create(:scenario_with_forces)).to be_valid
+    expect(FactoryBot.create(:scenario_with_forces)).to be_valid
   end
 
   it "is valid with a date, scenario and status" do
-    scen = FactoryGirl.build(:scenario)
+    scen = FactoryBot.build(:scenario)
     expect(scen).to be_valid
   end
 
 
   context "belligerents" do
     before do
-      @scenario = FactoryGirl.create(:scenario)
-      @red = FactoryGirl.create(:scenario_force_with_initiative)
-      @blue = FactoryGirl.create(:scenario_force)
+      @scenario = FactoryBot.create(:scenario)
+      @red = FactoryBot.create(:scenario_force_with_initiative)
+      @blue = FactoryBot.create(:scenario_force)
       @scenario.scenario_forces << @red
       @scenario.scenario_forces << @blue
     end
@@ -34,8 +34,8 @@ RSpec.describe Scenario, type: :model do
   context "sorting" do
 
     before do
-      @a = FactoryGirl.create(:scenario, name: "a")
-      @b = FactoryGirl.create(:scenario, name: "b")
+      @a = FactoryBot.create(:scenario, name: "a")
+      @b = FactoryBot.create(:scenario, name: "b")
     end
 
     it "has sorting option for sorting asc/desc by name" do
