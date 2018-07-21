@@ -2,6 +2,8 @@
 class GamesController < ApplicationController
   before_action :set_game, only: %i[show edit update destroy prepare_players]
   after_action :assign_badges, only: %i[update]
+  after_action :recount_later_ratings, only: %i[update]
+
   access all: %i[show index], user: { except: [:destroy] }, admin: :all
 
   # GET /games
@@ -22,8 +24,6 @@ class GamesController < ApplicationController
 
   # POST /games
   def create
-    #    game_params = determine_winner(params)
-    #    game_params = params[:game]
     @game = Game.create!(game_params)
     prepare_players
     if @game.save
@@ -83,6 +83,12 @@ class GamesController < ApplicationController
     @game.users.each do |user|
       UpdateRibbonScores.call(user: user, ribbons: @game.ribbons)
       user.check_for_promotion(@game.date)
+    end
+  end
+
+  def recount_later_ratings
+    Game.where('date >= ?', @game.date).each do |game|
+      UpdateRatings.call(game: game)
     end
   end
 
