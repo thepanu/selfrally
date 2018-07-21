@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Force, type: :model do
   it "has a valid factory" do
-    expect(FactoryGirl.build(:force)).to be_valid
+    expect(FactoryBot.build(:force)).to be_valid
   end
 
   it "list counters for a force in a scenario" do
-    counter = FactoryGirl.create(:counter)
-    force = FactoryGirl.create(:force)
-    scen = FactoryGirl.create(:scenario)
+    counter = FactoryBot.create(:counter)
+    force = FactoryBot.create(:force)
+    scen = FactoryBot.create(:scenario)
     scen.scenario_counters.create(
       force_id: force.id,
       counter_id: counter.id

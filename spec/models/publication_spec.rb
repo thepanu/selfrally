@@ -1,9 +1,9 @@
 require 'rails_helper'
 RSpec.describe Publication, type: :model do
   before do
-    @publication = FactoryGirl.create(:publication)
-    @publication2 = FactoryGirl.create(:publication)
-    @publication3 = FactoryGirl.create(:publication_alternate_name)
+    @publication = FactoryBot.create(:publication)
+    @publication2 = FactoryBot.create(:publication)
+    @publication3 = FactoryBot.create(:publication_alternate_name)
   end   
 
   describe "search publisher name for a term" do

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :publication do
     sequence(:name) { |n| "Testi Julkaisu#{n}" }
     publishing_year 2017

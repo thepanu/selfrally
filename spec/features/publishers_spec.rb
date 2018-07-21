@@ -4,7 +4,7 @@ require 'rails_helper'
 feature "Publishers", type: :feature do
   
   before do
-    @publisher = FactoryGirl.create(:publisher)
+    @publisher = FactoryBot.create(:publisher)
   end
 
   context "when not logged in" do
@@ -33,7 +33,7 @@ feature "Publishers", type: :feature do
   context "when logged in" do
 
     before do
-      @user = FactoryGirl.create(:user)
+      @user = FactoryBot.create(:user)
       @user.confirm
       visit new_user_session_path
       fill_in "user_email", with: @user.email
@@ -51,7 +51,7 @@ feature "Publishers", type: :feature do
     end
 
     scenario "can #edit" do
-      publisher = FactoryGirl.create(:publisher)
+      publisher = FactoryBot.create(:publisher)
       visit publisher_show_path(publisher)
       click_link "Edit"
       expect(page).to have_content "Editing"
@@ -64,7 +64,7 @@ feature "Publishers", type: :feature do
   context "when logged in as admin" do
 
     before do
-      @user = FactoryGirl.create(:user, roles: [:admin])
+      @user = FactoryBot.create(:user, roles: [:admin])
       @user.confirm
       visit new_user_session_path
       fill_in "user_email", with: @user.email
@@ -73,7 +73,7 @@ feature "Publishers", type: :feature do
     end
 
     scenario "can #destroy", js: true do
-      publisher = FactoryGirl.create(:publisher)
+      publisher = FactoryBot.create(:publisher)
       visit publisher_show_path(publisher)
       click_link "Delete"
       page.driver.browser.switch_to.alert.accept

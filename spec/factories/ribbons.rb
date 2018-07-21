@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :ribbon do
     name "MyString"
     bronze_url "MyString"

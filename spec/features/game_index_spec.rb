@@ -2,10 +2,10 @@ require 'rails_helper'
 
 feature "Game reports", type: :feature do
   before do
-    @scenario = FactoryGirl.create(:scenario_with_forces)
-    @game = FactoryGirl.create(:game, :scenario => @scenario)
+    @scenario = FactoryBot.create(:scenario_with_forces)
+    @game = FactoryBot.create(:game, :scenario => @scenario)
     @game.scenario.scenario_forces.each do |force|
-      FactoryGirl.create(:game_player, game: @game, force: force.force)
+      FactoryBot.create(:game_player, game: @game, force: force.force)
     end
   end
 

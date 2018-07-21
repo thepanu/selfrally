@@ -6,6 +6,7 @@ class GamePlayer < ApplicationRecord
     draw: 2
   }
   belongs_to :game, inverse_of: :game_players
+  has_one :scenario, through: :game
   belongs_to :user, optional: true
   belongs_to :force
 

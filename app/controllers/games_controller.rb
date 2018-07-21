@@ -60,11 +60,11 @@ class GamesController < ApplicationController
   private
 
   # :reek:DuplicateMethodCall :reek:TooManyStatements :reek:UtilityFunction
-  def update_params(params)
+  def update_params(params) # rubocop:disable Metrics/AbcSize
     winner_index = params[:game][:winner_index]
     params[:game][:game_players_attributes].each do |index|
-      if index == winner_index
-        params[:game][:game_players_attributes][index][:winner] = true
+      if index[0] == winner_index
+        params[:game][:game_players_attributes][index[0]][:winner] = true
         params[:game][:status] = 'finished'
       end
     end
@@ -81,10 +81,8 @@ class GamesController < ApplicationController
   def assign_badges
     return nil unless @game.finished?
     @game.users.each do |user|
+      UpdateRibbonScores.call(user: user, ribbons: @game.ribbons)
       user.check_for_promotion(@game.date)
-      @game.scenario.rules.each do |rule|
-        user.assign_points(rule)
-      end
     end
   end
 

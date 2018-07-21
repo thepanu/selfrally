@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :comment do |comment|
     comment.body "MyText"
     comment.association :user
