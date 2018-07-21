@@ -20,6 +20,7 @@ class Scenario < ApplicationRecord
   has_many :counters, through: :scenario_counters
   has_many :scenario_rules, inverse_of: :scenario
   has_many :rules, through: :scenario_rules
+  has_many :ribbons, through: :rules
   has_many :scenario_maps, inverse_of: :scenario
   has_many :maps, through: :scenario_maps
   has_many :scenario_overlays

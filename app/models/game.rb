@@ -8,6 +8,7 @@ class Game < ApplicationRecord
   has_many :game_players, dependent: :destroy, inverse_of: :game
   has_many :users, through: :game_players
   belongs_to :scenario
+  has_many :ribbons, through: :scenario
 
   validates :scenario_id, :date, :status, presence: true
   accepts_nested_attributes_for :game_players, allow_destroy: true
