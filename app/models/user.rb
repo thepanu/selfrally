@@ -77,21 +77,6 @@ class User < ApplicationRecord
     Rank.where('ranks.limit > ?', current_rank.limit).order(limit: :asc).first
   end
 
-  # Ribbons
-  # :reek:FeatureEnvy
-  def assign_points(rule)
-    rids = Ribbon.joins(:rules).where(rules: { id: rule.id }).pluck(:id)
-    rids.each do |rid|
-      uribbon = user_ribbons.find_or_create_by(
-        ribbon_id: rid
-      )
-      uribbon.update_attributes(
-        points: uribbon.points + 1,
-        badgeclass: uribbon.raise_class
-      )
-    end
-  end
-
   def elo
     EloRating.new(fetch_previous_rating(Date.today))
   end

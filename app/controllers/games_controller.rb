@@ -81,10 +81,8 @@ class GamesController < ApplicationController
   def assign_badges
     return nil unless @game.finished?
     @game.users.each do |user|
+      UpdateRibbonScores.call(user: user, ribbons: @game.ribbons)
       user.check_for_promotion(@game.date)
-      @game.scenario.rules.each do |rule|
-        user.assign_points(rule)
-      end
     end
   end
 
