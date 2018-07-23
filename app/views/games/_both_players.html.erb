@@ -1,0 +1,11 @@
+<div id='forces' class="<%= @game.game_players.any? ? 'd-sm-block': 'd-sm-none' %>">
+  <div class="card-deck">
+    <% i = 0 %>
+    <%= form.fields_for :game_players  do |pf| %>
+      <div class="card w-25">
+        <%= render partial: 'games/player', locals: { pf: pf, i: i } %>
+        <% i += 1 %>
+      </div>
+    <% end %>
+  </div>
+</div>

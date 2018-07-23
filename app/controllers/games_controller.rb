@@ -17,6 +17,22 @@ class GamesController < ApplicationController
   # GET /games/new
   def new
     @game = Game.new
+    2.times do
+      @game.game_players << GamePlayer.new(force_id: 0)
+    end
+  end
+
+  # :reek:TooManyStatements
+  def update_players
+    forces = []
+    Scenario.includes(%i[scenario_forces forces]).find(params[:scenario_id]).scenario_forces.each do |scenario_force|
+      forces << scenario_force.force
+    end
+    respond_to do |format|
+      format.json do
+        render json: forces
+      end
+    end
   end
 
   # GET /games/1/edit
@@ -24,10 +40,12 @@ class GamesController < ApplicationController
 
   # POST /games
   def create
+    game_params = update_params(params)
     @game = Game.create!(game_params)
-    prepare_players
+    #    prepare_players
+    UpdateRatings.call(game: @game)
     if @game.save
-      redirect_to edit_game_path(@game), notice: 'Game was successfully created.'
+      redirect_to game_path(@game), notice: 'Game was successfully created.'
     else
       render :new
     end
@@ -74,7 +92,7 @@ class GamesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_game
-    @game = Game.find(params[:id])
+    @game = Game.includes(game_players: %i[force user]).find(params[:id])
   end
 
   # :reek:FeatureEnvy

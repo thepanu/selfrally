@@ -1,12 +1,15 @@
 
 <div class="card-header">
-  <%= pf.object.force.name %>
+  <div id="force-name-<%= i %>">
+    <%= pf.object.force.nil? ? "-" : pf.object.force.name %>
+  </div>
   <span class="float-right">
     <%= fa_icon "trophy" %>
     <%= radio_button_tag "game[winner_index]", pf.index, pf.object.winner %>
   </span>
 </div>
 <div class="card-body">
+  <%= pf.hidden_field :force_id %>
   <div class="form-group row">
     <%= pf.label :name, class: "col-sm-2 col-form-label" %>
     <%= pf.collection_select :user_id, User.all, :id, :full_name, {:include_blank => true}, {selected: pf.object.user_id, id: "player-select-#{i}"} %>
