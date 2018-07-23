@@ -21,13 +21,11 @@ feature "Games#new", type: :feature do
     select2(@scenario.name, {from: 'scenario-select'})
     fill_in "game_gamingtime", with: 1
     fill_in "game_turnsplayed", with: 5
-    click_button "Create new"
-    expect(page).to have_content "Editing"
     choose('game_status_finished')
     choose('game_winner_index_0')
-    select2(@user.full_name, {from: 'player-select-1'})
-    select2(@opponent.full_name, {from: 'player-select-2'})
-    click_button "Save changes"
+    select2(@user.full_name, {from: 'player-select-0'})
+    select2(@opponent.full_name, {from: 'player-select-1'})
+    click_button "Create new"
     expect(page).to have_content @user.full_name
     expect(page).to have_content "Loser"
     expect(page).to have_content "Winner"

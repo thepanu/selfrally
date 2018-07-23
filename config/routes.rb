@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   get 'ribbons/index'
 
-  #get 'games/prepare_players', to: 'games#prepare_players'
+  get 'games/update_players', to: 'games#update_players'
   resources :games
   resources :ribbons
 
