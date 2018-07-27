@@ -1,4 +1,4 @@
-<div id='forces' class="<%= @game.game_players.any? ? 'd-sm-block': 'd-sm-none' %>">
+<div id='forces' class="<%= !!@game.id ? 'd-sm-block': 'd-sm-none' %>">
   <div class="card-deck">
     <% i = 0 %>
     <%= form.fields_for :game_players  do |pf| %>

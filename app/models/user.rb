@@ -1,6 +1,8 @@
 # User model
 # :reek:TooManyMethods
 class User < ApplicationRecord
+  include PgSearch
+
   has_many :game_players
   has_many :games, through: :game_players
   has_many :user_ranks
@@ -23,6 +25,12 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :email, :nick, presence: true
   validates :email, :nick, uniqueness: true
+
+  pg_search_scope :search,
+                  against: %i[first_name last_name],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
 
   after_create :init
 

@@ -56,6 +56,13 @@ class ScenariosController < ApplicationController
     end
   end
 
+  def find
+    scenarios = Scenario.search(params[:search])
+    respond_to do |format|
+      format.json { render json: scenarios.map { |scenario| { id: scenario.id, name: scenario.name } } }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
