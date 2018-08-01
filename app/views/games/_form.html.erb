@@ -1,11 +1,16 @@
 <%= form_with(model: game) do |form| %>
-  <% if game.errors.any? %>
+  <% if game.errors.any? || game.game_players[0].errors.any? || game.game_players[1].errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
 
       <ul>
         <% game.errors.full_messages.each do |message| %>
           <li><%= message %></li>
+        <% end %>
+        <% game.game_players.each do |game_player| %>
+          <% game_player.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
         <% end %>
       </ul>
     </div>
@@ -16,7 +21,7 @@
       <%= form.datetime_select :date, id: :game_date, class: "form-control"  %>
     </div>
 
-    <div class="form-group">
+    <div class="form-group scenario-select">
       <%= form.label :scenario_id %>
         <%= form.collection_select :scenario_id, Scenario.all, :id, :name, {:include_blank => true}, { class: "form-control", id: "scenario-select" } %>
     </div>

@@ -1,5 +1,7 @@
 # Scenario model
 class Scenario < ApplicationRecord
+  include PgSearch
+
   extend FriendlyId
   friendly_id :name, use: :slugged
   paginates_per 15
@@ -31,6 +33,12 @@ class Scenario < ApplicationRecord
   accepts_nested_attributes_for :scenario_rules, allow_destroy: true
   accepts_nested_attributes_for :scenario_maps, allow_destroy: true
   accepts_nested_attributes_for :scenario_counters, allow_destroy: true
+
+  pg_search_scope :search,
+                  against: %i[name],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
 
   after_initialize :init
 

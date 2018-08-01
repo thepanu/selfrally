@@ -233,6 +233,10 @@ GEM
       activerecord (> 4.0.0)
     pg (0.21.0)
     pg (0.21.0-x86-mingw32)
+    pg_search (2.1.2)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
+      arel (>= 6)
     popper_js (1.12.9)
     powerpack (0.1.2)
     public_suffix (3.0.2)
@@ -462,6 +466,7 @@ DEPENDENCIES
   parity (~> 2.2, >= 2.2.1)
   petergate (~> 1.8)
   pg (~> 0.18)
+  pg_search
   puma (~> 3.7)
   rails (~> 5.2.0)
   reek

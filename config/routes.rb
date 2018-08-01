@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-
   get 'ribbons/index'
-
+  get 'users/find', to: 'users#find' 
+  get 'scenarios/find', to: 'scenarios#find' 
   get 'games/update_players', to: 'games#update_players'
   resources :games
   resources :ribbons
