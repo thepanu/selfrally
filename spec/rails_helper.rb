@@ -19,17 +19,6 @@ module FeatureHelper
     find(".select2-search__field").send_keys(value)
     find(".select2-results__option", text: value).click
   end
-
-  def select22(field_class, options = {})
-    #within(".form-group.#{field_class}") do
-      byebug
-      find("#select2-#{field_class}-container", minimum: 1).click
-      byebug
-      find(".select2-search__field").send_keys(options.fetch(:choose, ""), :enter)
-      byebug
-      find(".select2-results__option", text: options.fetch(:choose)).click
-    #end
-  end
 end
 
 Capybara.register_driver :selenium do |app|
