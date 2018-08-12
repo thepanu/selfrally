@@ -27,6 +27,14 @@ module SidebarMenuHelper
       {
         url: main_app.ribbons_path,
         title: 'Special Service Ribbons'
+      },
+      {
+        url: main_app.overlays_path,
+        title: 'Overlays'
+      },
+      {
+        url: main_app.maps_path,
+        title: 'Maps'
       }
     ]
   end

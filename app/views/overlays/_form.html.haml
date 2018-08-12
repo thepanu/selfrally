@@ -1,0 +1,14 @@
+=form_for overlay do |form|
+  - if overlay.errors.any?
+    .alert.alert-danger#error_explanation
+      %h4 #{pluralize(overlay.errors.count, "error")} prohibited this overlay from being saved:
+      - overlay.errors.full_messages.each do |message|
+        .row.ml-3= message
+  .ml-3
+    .form-group.row
+      = form.label :name, class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = form.text_field :name, id: :overlay_name, class: 'form-control'
+    .actions
+      = form.submit "Save", class: 'btn btn-primary'
+      = link_to 'Cancel', overlays_path, class: 'btn btn-warning'

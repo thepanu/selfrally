@@ -1,0 +1,9 @@
+.card
+  .card-header
+    %h4.d-inline= @overlay.name
+    %span.d-inline.float-right
+      = link_to 'Edit', edit_overlay_path(@overlay), class: 'btn btn-secondary' if logged_in?(:user)
+      = link_to 'Delete', overlay_path(@overlay), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if logged_in?(:admin)
+  .card-body
+    %h6 List of scenarios where this overlay is used
+    = render partial: 'overlays/scenario_list', locals: { scenarios: @overlay.scenarios }

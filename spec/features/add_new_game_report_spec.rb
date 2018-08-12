@@ -16,7 +16,7 @@ feature "Games#new", type: :feature do
     fill_in "user_email", with: @user.email
     fill_in "user_password", with: @user.password
     click_button "Log in"
-    click_link "Add a game report"
+    visit new_game_path
     select(Time.now.day + 1, from: 'game_date_3i')
     select2(@scenario.name, {from: 'scenario-select'})
     fill_in "game_gamingtime", with: 1

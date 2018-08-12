@@ -92,7 +92,6 @@ $(document).on("change", "#scenario-select", function(){
           
     },
     success: function (response) {
-      $("#foo").html("fuubar")
       $("#force-name-0").html(response["0"]["name"])
       $("#force-name-1").html(response["1"]["name"])
       $("#game_game_players_attributes_0_force_id")[0].value = response["0"]["id"]
