@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   get 'games/update_players', to: 'games#update_players'
   resources :games
   resources :ribbons
-
+  resources :overlays
+  resources :maps
   resources :users do
     member do
       get 'games'

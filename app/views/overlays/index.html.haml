@@ -1,0 +1,8 @@
+.card
+  .card-header
+    %h3.d-inline Overlays
+    .d-inline.float-right= link_to "Add new Overlay", new_overlay_path, class: 'btn btn-primary'
+  .card-body
+    - @overlays.each do |overlay|
+      .row.no-gutters= link_to overlay.name, overlay_path(overlay)
+    .row= paginate @overlays

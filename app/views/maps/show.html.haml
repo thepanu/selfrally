@@ -1,0 +1,9 @@
+.card
+  .card-header
+    %h4.d-inline= @map.name
+    %span.d-inline.float-right
+      = link_to 'Edit', edit_map_path(@map), class: 'btn btn-secondary' if logged_in?(:user)
+      = link_to 'Delete', map_path(@map), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } if logged_in?(:admin)
+  .card-body
+    %h6 List of scenarios where this map is used
+    = render partial: 'maps/scenario_list', locals: { scenarios: @map.scenarios }

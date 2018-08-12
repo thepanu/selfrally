@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :overlay do
-    name "MyString"
+    sequence(:name) { |n| "MyString#{n}" }
   end
 end

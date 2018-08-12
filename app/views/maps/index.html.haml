@@ -1,0 +1,8 @@
+.card
+  .card-header
+    %h3.d-inline Maps
+    .d-inline.float-right= link_to "Add new Map", new_map_path, class: 'btn btn-primary'
+  .card-body
+    - @maps.each do |map|
+      .row.no-gutters= link_to map.name, map_path(map)
+    .row= paginate @maps
