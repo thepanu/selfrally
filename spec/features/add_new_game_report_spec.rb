@@ -19,7 +19,6 @@ feature "Games#new", type: :feature do
     click_link "Add a game report"
     select(Time.now.day + 1, from: 'game_date_3i')
     select2(@scenario.name, {from: 'scenario-select'})
-    expect(page).to have_content "fuubar"
     fill_in "game_gamingtime", with: 1
     fill_in "game_turnsplayed", with: 5
     choose('game_status_finished')
