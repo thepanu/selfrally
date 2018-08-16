@@ -20,7 +20,7 @@
     .form-group.row
       = form.label :location, class: 'col-sm-2 col-form-label'
       .col-sm-10
-        =form.text_field :location_id, id: :scenario_location, class: 'form-control'
+        =form.collection_select :location_id, Location.all, :id, :name, {include_blank: true}, { class: 'form-control' }
     .card-deck.mb-3
       - index = 0
       = form.fields_for :scenario_forces do |sform|
