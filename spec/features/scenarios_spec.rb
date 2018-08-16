@@ -51,7 +51,7 @@ feature "Scenarios", type: :feature do
       click_link "Add new Scenario"
       fill_in "scenario_name", with: 'Just a Test Scenario'
       fill_in 'scenario_gameturns', with: 5.5
-      fill_in 'scenario_location', with: @location.id
+      select(@location.name, from: 'scenario_location_id')
       choose('scenario_initiative_index_0')
       select(@side_a.name, from: 'scenario_scenario_forces_attributes_0_force_id')
       select(@side_b.name, from: 'scenario_scenario_forces_attributes_1_force_id')
