@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :location do
-    name "MyString"
+    sequence(:name) { |n| "Location#{n}" }
   end
 end
